@@ -273,3 +273,42 @@ fieldset legend{font-size:13px;font-weight:600;padding:0 6px;color:var(--primary
   #gov-header{padding:12px 16px;}
 }
 @media (prefers-reduced-motion: reduce){ *{transition:none !important;animation:none !important;} }
+/* ===== Sajag Setu continuity + AI escalation enhancements ===== */
+.ai-monitor{margin:8px 0;padding:9px 11px;border:1px solid #D7E5F0;background:#F5FAFD;border-radius:10px;font-size:11.5px;color:#31556D;line-height:1.45}
+.ai-monitor strong{color:#B55A13}.ai-monitor span{color:#5F7484}
+.escalation-note{margin:8px 0;padding:9px 11px;border-radius:10px;background:#FFF4E8;border:1px solid #F1D2AD;color:#8A4A0F;font-size:11.5px;line-height:1.45}
+.record-lock{margin-top:8px;padding:8px 10px;border-radius:9px;background:#EEF6F1;color:#245B3B;font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.record-lock.draft{background:#FFF8EC;color:#8A5B19;border:1px solid #F2DDB5}
+.ai-flow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--ink-soft)}
+.ai-flow span{padding:7px 10px;background:#F5F8FB;border:1px solid var(--border);border-radius:999px;font-weight:600}
+.ai-flow b{color:var(--primary);font-size:16px}
+.audit-row{display:grid;grid-template-columns:120px 1fr auto;gap:10px;padding:9px 0;border-bottom:1px solid #EEF1F5;font-size:12px;align-items:center}
+.audit-row:last-child{border-bottom:none}.audit-row strong{text-transform:capitalize;color:var(--primary-dark)}.audit-row span{color:var(--ink-soft)}.audit-row small{color:var(--ink-faint)}
+.journey-strip{display:flex;gap:0;overflow-x:auto;padding:8px 0 16px;margin-bottom:8px}
+.journey-step{min-width:155px;padding:12px;border:1px solid var(--border);background:#fff;position:relative}
+.journey-step:first-child{border-radius:10px 0 0 10px}.journey-step:last-child{border-radius:0 10px 10px 0}.journey-step + .journey-step{border-left:none}
+.journey-step .j-label{font-size:11px;color:var(--ink-faint);text-transform:uppercase;font-weight:700}.journey-step .j-main{font-size:12.5px;font-weight:700;color:var(--primary-dark);margin-top:4px}.journey-step .j-meta{font-size:10.5px;color:var(--ink-soft);margin-top:3px}
+@media (max-width:760px){.audit-row{grid-template-columns:1fr}.journey-step{min-width:135px}}
+
+
+/* Referral notification + automatic escalation */
+.notice-banner{padding:12px 14px;margin:12px 0;border:1px solid #c8ddea;border-radius:10px;background:#f4f9fc;color:#21445a;font-size:13px;}
+.ai-monitor{margin-top:10px;padding:8px 10px;border-radius:8px;background:#fff7e8;color:#8a4a0f;font-size:12px;}
+.ai-escalated{margin-top:8px;padding:8px 10px;border-radius:8px;background:#fff0ef;color:#a32920;font-size:12px;font-weight:600;}
+.tag.published{background:#edf8f0;color:#176b38;border:1px solid #bfe2ca;}
+.tag.draft{background:#fff7e8;color:#8a4a0f;border:1px solid #efd29b;}
+
+/* Facility dashboard + referral response controls */
+.dashboard-stats{grid-template-columns:repeat(3,minmax(0,1fr));}
+.panel-head-row{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:12px;}
+.panel-sub{margin:-5px 0 0;color:var(--ink-soft);font-size:13px;}
+.table-scroll{overflow-x:auto;}
+.tag.high-risk{background:#fde6e6;color:#9b1c1c;border-color:#f5b7b7;}
+.tag.low-risk{background:#eaf7ef;color:#246b3c;border-color:#b9dfc7;}
+.response-timer{margin-top:10px;padding:9px 11px;border:1px solid #f0c979;background:#fff8e8;border-radius:9px;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.response-timer strong{font-size:18px;color:#9a5b00;font-variant-numeric:tabular-nums;}
+.ref-reason{margin-top:8px;padding:8px 10px;border-left:3px solid #d85b5b;background:#fff5f5;color:#733131;font-size:12.5px;}
+.btn.danger{border-color:#d85b5b;background:#fff;color:#a11c1c;}
+.ref-list{min-width:0;flex:1;}
+.ref-list h3{margin-top:0;}
+@media (max-width:900px){.dashboard-stats{grid-template-columns:repeat(2,minmax(0,1fr));}}

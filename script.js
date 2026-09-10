@@ -12,10 +12,10 @@ const STR = {
     navDash:"Dashboard", navNew:"New case", navRecords:"Patient records", navReferrals:"Referrals",
     dashTitle:"Facility dashboard", dashSub:"What needs attention at this facility right now.",
     statIncoming:"Incoming referrals", statFollowup:"High-risk follow-ups due", statLogged:"Cases logged (all time)",
-    incomingHeading:"Incoming referrals awaiting action", followupHeading:"Patients needing follow-up",
+    incomingHeading:"Incoming referrals & notifications", followupHeading:"Patients needing follow-up",
     noIncoming:"No referrals waiting on this facility.", noFollowup:"No flagged follow-ups right now.",
     capsHeading:"What each facility can actually treat",
-    capsSub:"Referrals are routed to the nearest facility that has the needed capability — not just the next one in line.",
+    capsSub:"Government facility data guides routing using registered specialists, services, diagnostics, medicines and equipment.",
     newTitle:"Log a new case", newSub:"Record a patient visit and let the system flag whether it needs referral, and where.",
     patientSection:"Patient", existingOrNew:"Existing patient or new?", existing:"Existing patient", newP:"New patient",
     choosePatient:"Choose patient", name:"Name", age:"Age", gender:"Gender", village:"Village",
@@ -39,8 +39,9 @@ const STR = {
     demoAttachmentNote:"(demo entry — no file attached)",
     referralsTitle:"Referrals", referralsSub:"Cases moving between facilities, tracked end to end.",
     incoming:"Incoming", sent:"Sent by this facility",
-    pending:"Pending", accepted:"Accepted", completed:"Completed",
-    accept:"Accept", complete:"Mark complete", noneHere:"Nothing here.",
+    pending:"Notified", inProgress:"In care", unable:"Unable to accommodate", escalatedStatus:"Escalated", completed:"Completed",
+    noAcceptNeeded:"Referral awaiting facility response", unableBtn:"Reject referral", unablePrompt:"Why is this facility unable to take the case?", complete:"Mark complete", noneHere:"Nothing here.",
+    casesHere:"Cases currently at this facility", maleCases:"Male patients", femaleCases:"Female patients", highRisk:"High risk", lowRisk:"Low risk", riskHigh:"High risk", riskLow:"Low risk", rejectConfirm:"Reject this referral? Enter the reason:", rejected:"Rejected", rejectedReason:"Reason", timeRemaining:"Time remaining", dashboardEmpty:"No cases are currently recorded at this facility.",
     urgencyEmergency:"Emergency", urgencyPriority:"Priority", urgencyRoutine:"Routine",
     from:"From", to:"To", referredTo:"Referred to",
     symFever:"Fever", symCough:"Persistent cough", symBreath:"Difficulty breathing", symChest:"Chest pain (possible cardiac)",
@@ -50,7 +51,15 @@ const STR = {
     capPediatric:"Child emergency care", capTrauma:"Emergency surgery / trauma care",
     capInfectious:"Infectious disease care", capSpecialist:"Specialist consultation",
     demoNote:"Prototype demo data — pre-loaded so the referral chain is visible without manual entry.",
-    resetDemo:"Reset demo data"
+    resetDemo:"Reset demo data",
+    journeyTitle:"Patient journey", auditTitle:"Audit trail", aiEscalation:"AI auto-escalation",
+    aiMonitoring:"Response window", escalated:"Auto-escalated",
+    escalationReason:"No response within the 12-hour facility response window", unableReason:"Facility reported an operational problem", nextFacility:"Next nearest registered facility",
+    responseWindow:"12-hour response window", notifyOnly:"Response window active",
+    published:"Published", draft:"Draft", locked:"Locked clinical report", publish:"Publish report",
+    amend:"Add amendment", amendment:"Amendment", noEdit:"This clinical report is locked. Lower-level roles cannot modify a published report.",
+    aiDemo:"Demo timer: 20 seconds", audit:"Audit trail",
+    acceptedAt:"Accepted at", escalatedAt:"Escalated at", aiDecision:"AI decision", pendingFor:"Pending for"
   },
   mr:{
     brand:"सजग सेतू", brandSub:"गावापासून रुग्णालयापर्यंत सलग काळजी",
@@ -64,10 +73,10 @@ const STR = {
     navDash:"डॅशबोर्ड", navNew:"नवीन रुग्ण नोंद", navRecords:"रुग्ण नोंदी", navReferrals:"रेफरल्स",
     dashTitle:"सुविधा डॅशबोर्ड", dashSub:"या सुविधेत सध्या लक्ष देण्याची गरज असलेल्या गोष्टी.",
     statIncoming:"येणारे रेफरल्स", statFollowup:"उच्च-जोखीम पाठपुरावा बाकी", statLogged:"नोंदवलेली प्रकरणे (एकूण)",
-    incomingHeading:"कार्यवाहीसाठी प्रलंबित रेफरल्स", followupHeading:"पाठपुरावा आवश्यक असलेले रुग्ण",
+    incomingHeading:"येणारे रेफरल्स व सूचना", followupHeading:"पाठपुरावा आवश्यक असलेले रुग्ण",
     noIncoming:"या सुविधेसाठी कोणतेही रेफरल प्रलंबित नाही.", noFollowup:"सध्या कोणताही पाठपुरावा प्रलंबित नाही.",
     capsHeading:"प्रत्येक सुविधा प्रत्यक्षात काय उपचार करू शकते",
-    capsSub:"रेफरल आवश्यक क्षमता असलेल्या सर्वात जवळच्या सुविधेकडे पाठवले जाते — फक्त पुढच्या क्रमांकावर नाही.",
+    capsSub:"शासकीय नोंदणीत असलेले तज्ज्ञ, सेवा, तपासण्या, औषधे व उपकरणांची माहिती रेफरल ठरवण्यासाठी वापरली जाते.",
     newTitle:"नवीन प्रकरण नोंदवा", newSub:"रुग्ण भेट नोंदवा — प्रणाली रेफरलची गरज आहे का आणि कुठे ते ठरवेल.",
     patientSection:"रुग्ण", existingOrNew:"जुना रुग्ण की नवीन?", existing:"जुना रुग्ण", newP:"नवीन रुग्ण",
     choosePatient:"रुग्ण निवडा", name:"नाव", age:"वय", gender:"लिंग", village:"गाव",
@@ -91,8 +100,9 @@ const STR = {
     demoAttachmentNote:"(नमुना नोंद — फाईल संलग्न नाही)",
     referralsTitle:"रेफरल्स", referralsSub:"सुविधांदरम्यान हलणारी प्रकरणे, सुरुवातीपासून शेवटपर्यंत ट्रॅक केलेली.",
     incoming:"येणारे", sent:"या सुविधेने पाठवलेले",
-    pending:"प्रलंबित", accepted:"स्वीकारले", completed:"पूर्ण झाले",
-    accept:"स्वीकारा", complete:"पूर्ण म्हणून चिन्हांकित करा", noneHere:"येथे काहीही नाही.",
+    pending:"सूचित", inProgress:"उपचार सुरू", unable:"उपचार देणे शक्य नाही", escalatedStatus:"पुढे पाठवले", completed:"पूर्ण झाले",
+    noAcceptNeeded:"रेफरलवर सुविधेचा प्रतिसाद बाकी", unableBtn:"रेफरल नाकारावे", unablePrompt:"ही सुविधा हे प्रकरण का घेऊ शकत नाही?", complete:"पूर्ण म्हणून चिन्हांकित करा", noneHere:"येथे काहीही नाही.",
+    casesHere:"या सुविधेतील सध्याची प्रकरणे", maleCases:"पुरुष रुग्ण", femaleCases:"महिला रुग्ण", highRisk:"उच्च जोखीम", lowRisk:"कमी जोखीम", riskHigh:"उच्च जोखीम", riskLow:"कमी जोखीम", rejectConfirm:"हे रेफरल नाकारायचे आहे का? कारण लिहा:", rejected:"नाकारले", rejectedReason:"कारण", timeRemaining:"उरलेला वेळ", dashboardEmpty:"या सुविधेत सध्या कोणतेही प्रकरण नोंदलेले नाही.",
     urgencyEmergency:"तातडीचे", urgencyPriority:"प्राधान्य", urgencyRoutine:"नियमित",
     from:"पासून", to:"पर्यंत", referredTo:"येथे पाठवले",
     symFever:"ताप", symCough:"सततचा खोकला", symBreath:"श्वास घेण्यास त्रास", symChest:"छातीत दुखणे (हृदयाशी संबंधित असू शकते)",
@@ -102,7 +112,15 @@ const STR = {
     capPediatric:"बालक आपत्कालीन सेवा", capTrauma:"आपत्कालीन शस्त्रक्रिया / जखम उपचार",
     capInfectious:"संसर्गजन्य आजार उपचार", capSpecialist:"तज्ज्ञ सल्लामसलत",
     demoNote:"नमुना डेमो माहिती — रेफरल साखळी लगेच दिसण्यासाठी आधीच भरलेली आहे.",
-    resetDemo:"डेमो माहिती पुन्हा सुरू करा"
+    resetDemo:"डेमो माहिती पुन्हा सुरू करा",
+    journeyTitle:"रुग्णाचा प्रवास", auditTitle:"ऑडिट ट्रेल", aiEscalation:"AI स्वयंचलित एस्कलेशन",
+    aiMonitoring:"AI सूचित रेफरल्सवर लक्ष ठेवत आहे", escalated:"स्वयंचलितपणे पुढे पाठवले",
+    escalationReason:"12 तासांच्या प्रतिसाद कालावधीत सुविधा प्रतिसाद देत नाही", unableReason:"सुविधेने कार्यात्मक अडचण कळवली", nextFacility:"पुढील जवळची नोंदणीकृत सुविधा",
+    responseWindow:"12 तासांचा प्रतिसाद कालावधी", notifyOnly:"प्रतिसाद कालावधी सुरू",
+    published:"प्रकाशित", draft:"मसुदा", locked:"लॉक केलेला वैद्यकीय अहवाल", publish:"अहवाल प्रकाशित करा",
+    amend:"दुरुस्ती जोडा", amendment:"दुरुस्ती", noEdit:"हा वैद्यकीय अहवाल लॉक आहे. खालच्या स्तरातील भूमिका प्रकाशित अहवाल बदलू शकत नाहीत.",
+    aiDemo:"डेमो टाइमर: 20 सेकंद", audit:"ऑडिट ट्रेल",
+    acceptedAt:"स्वीकारले", escalatedAt:"एस्कलेशन", aiDecision:"AI निर्णय", pendingFor:"प्रलंबित कालावधी"
   }
 };
 let lang = "en";
@@ -131,10 +149,10 @@ const GOV_EMBLEM_SVG = `<svg class="gov-emblem" viewBox="0 0 48 48" fill="none" 
 
 /* ============================= facility capability model ============================= */
 const FACILITIES = [
-  { name:"Sub-Centre — Wagholi",        capabilities:["basic_checkup"] },
-  { name:"PHC — Koregaon",              capabilities:["basic_checkup","normal_delivery"] },
-  { name:"Rural Hospital — Baramati",   capabilities:["basic_checkup","normal_delivery","obstetric_emergency","pediatric_emergency","trauma_surgery","infectious_disease_care"] },
-  { name:"District Hospital — Pune",    capabilities:["basic_checkup","normal_delivery","obstetric_emergency","pediatric_emergency","trauma_surgery","infectious_disease_care","specialist_consultation"] }
+  { name:"Sub-Centre — Wagholi", level:"Sub-Centre", specialists:[], services:["basic_checkup"], diagnostics:["basic_vitals"], medicines:["ors","iron_folic"], equipment:["bp_monitor","thermometer"] },
+  { name:"PHC — Koregaon", level:"PHC", specialists:["general_medicine"], services:["basic_checkup","normal_delivery"], diagnostics:["cbc","blood_sugar"], medicines:["ors","iron_folic","basic_antibiotics"], equipment:["bp_monitor","delivery_kit"] },
+  { name:"Rural Hospital — Baramati", level:"Rural Hospital", specialists:["obstetrics","pediatrics","trauma"], services:["basic_checkup","normal_delivery","obstetric_emergency","pediatric_emergency","trauma_surgery","infectious_disease_care"], diagnostics:["cbc","blood_sugar","ultrasound","xray"], medicines:["ors","iron_folic","emergency_medicines"], equipment:["bp_monitor","ultrasound","xray","ot"] },
+  { name:"District Hospital — Pune", level:"District Hospital", specialists:["obstetrics","pediatrics","trauma","cardiology","ophthalmology","general_medicine"], services:["basic_checkup","normal_delivery","obstetric_emergency","pediatric_emergency","trauma_surgery","infectious_disease_care","specialist_consultation"], diagnostics:["cbc","blood_sugar","ultrasound","xray","ct","ecg"], medicines:["ors","iron_folic","emergency_medicines","specialist_medicines"], equipment:["bp_monitor","ultrasound","xray","ct","ecg","ot"] }
 ];
 const FACILITY_NAMES = FACILITIES.map(f => f.name);
 function facilityByName(name){ return FACILITIES.find(f => f.name === name); }
@@ -145,14 +163,67 @@ const CAP_LABEL_KEY = {
 };
 function capLabel(cap){ return t(CAP_LABEL_KEY[cap] || cap); }
 
-function routeReferral(fromFacilityName, capability){
+/* Government-maintained facility registry drives routing. A facility is not asked to
+   prove capability at referral time; its registered specialists/services/diagnostics
+   are already known to Sajag Setu. */
+function routeReferral(fromFacilityName, capability, specialist){
   const idx = FACILITY_NAMES.indexOf(fromFacilityName);
   const skipped = [];
   for (let i = idx + 1; i < FACILITIES.length; i++){
-    if (FACILITIES[i].capabilities.includes(capability)) return { to: FACILITIES[i].name, skipped };
-    skipped.push(FACILITIES[i].name);
+    const facility = FACILITIES[i];
+    const specialistMatch = specialist ? facility.specialists.includes(specialist) : true;
+    const serviceMatch = capability ? facility.services.includes(capability) : true;
+    if (specialistMatch && serviceMatch) return { to: facility.name, skipped };
+    skipped.push(facility.name);
   }
   return { to: null, skipped };
+}
+
+/* ============================= automatic facility response / escalation ============================= */
+const RESPONSE_WINDOW_HOURS = 12;
+const DEMO_ESCALATION_MS = 20000; // 20s demo; production policy is 12 hours.
+function referralCreatedMs(r){
+  const value = Date.parse(r.createdAt);
+  return Number.isFinite(value) ? value : Date.now();
+}
+function responseWindowMs(){ return DEMO_ESCALATION_MS; }
+function nextRegisteredFacility(fromFacilityName, capability, specialist){
+  return routeReferral(fromFacilityName, capability, specialist).to;
+}
+function appendAudit(r, action, actor, detail){
+  r.audit = r.audit || [];
+  const at = new Date().toISOString();
+  r.audit.push({ at, action, actor:actor || "Sajag Setu", detail:detail || "" });
+  // Also feed the global audit trail — this is what the patient profile's
+  // "Audit trail" panel actually reads. Without this, escalation/rejection/
+  // care-started events were recorded but never visible anywhere in the UI.
+  DB.audit = DB.audit || [];
+  DB.audit.unshift({ id:uid("au"), type:action, message:detail || action, at, actor:null, patientId:r.patientId, referralId:r.id });
+}
+function autoEscalateReferral(r, reason){
+  if (!r || !["notified","in_progress","unable","rejected"].includes(r.status)) return false;
+  const next = nextRegisteredFacility(r.to, r.capability, r.specialist);
+  if (!next) return false;
+  const oldTo = r.to;
+  r.escalationCount = (r.escalationCount || 0) + 1;
+  r.previousFacility = oldTo;
+  r.to = next;
+  r.status = "notified";
+  r.createdAt = new Date().toISOString();
+  r.lastEscalatedAt = r.createdAt;
+  r.escalationReason = reason || t("escalationReason");
+  appendAudit(r, "AI_AUTO_ESCALATION", "Sajag Setu Escalation Engine", `${oldTo} → ${next}: ${r.escalationReason}`);
+  return true;
+}
+function processAutomaticEscalations(){
+  let changed = false;
+  DB.referrals.forEach(r => {
+    if (r.status !== "notified") return;
+    if (Date.now() - referralCreatedMs(r) >= responseWindowMs()){
+      changed = autoEscalateReferral(r, t("escalationReason")) || changed;
+    }
+  });
+  return changed;
 }
 
 /* ============================= symptoms / triage ============================= */
@@ -177,16 +248,31 @@ function assessCase(selectedKeys, customText){
   let top = defs.length ? defs[0] : null;
   defs.forEach(d => { if (!top || URGENCY_RANK[d.urgency] > URGENCY_RANK[top.urgency]) top = d; });
   if (customText && customText.trim()){
-    const customDef = { urgency:"priority", capability:"basic_checkup" };
+    const lower = customText.toLowerCase();
+    const customDef = /eye|vision|blurred|ophthalm/.test(lower)
+      ? { urgency:"priority", capability:"specialist_consultation", specialist:"ophthalmology" }
+      : { urgency:"priority", capability:"basic_checkup" };
     if (!top || URGENCY_RANK[customDef.urgency] > URGENCY_RANK[top.urgency]) top = customDef;
   }
   if (!top) return { urgency:"routine", capability:"basic_checkup" };
-  return { urgency: top.urgency, capability: top.capability };
+  return { urgency: top.urgency, capability: top.capability, specialist: top.specialist || null };
 }
 
 /* ============================= session (login) ============================= */
 let session = null; // {name, role}
 const ROLE_KEYS = ["roleAsha","rolePhc","roleDoctor","roleHospital"];
+const ROLE_FACILITIES = {
+  roleAsha:[FACILITY_NAMES[0]],
+  rolePhc:[FACILITY_NAMES[1]],
+  roleDoctor:[FACILITY_NAMES[1],FACILITY_NAMES[2],FACILITY_NAMES[3]],
+  roleHospital:[FACILITY_NAMES[2],FACILITY_NAMES[3]]
+};
+function allowedFacilitiesForRole(role){ return ROLE_FACILITIES[role] || FACILITY_NAMES; }
+function canPublishRecord(r){ return !!session && ["roleDoctor","roleHospital"].includes(session.role) && r.facility===currentFacility && !r.published; }
+function canAmendRecord(r){ return !!session && ["roleDoctor","roleHospital"].includes(session.role) && r.facility===currentFacility && !!r.published; }
+function auditEvent(type, message, extra={}){
+  DB.audit = DB.audit || []; DB.audit.unshift({id:uid("au"), type, message, at:new Date().toISOString(), actor:session?{name:session.name,role:session.role}:null, ...extra});
+}
 
 /* ============================= patient ID generator ============================= */
 let patientSeq = 1006; // seed patients occupy 1001-1005
@@ -215,26 +301,36 @@ function seedData(){
       ]}
     ],
     records: [
-      {id:"r1", patientId:"p1", facility:"Sub-Centre — Wagholi", date:"2026-08-20", symptoms:["symBleed"], customText:"", notes:"Reported light bleeding, 7 months pregnant.", urgency:"emergency", vitals:{bp:"100/60",temp:"98.6",pulse:"110"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}},
-      {id:"r2", patientId:"p1", facility:"Rural Hospital — Baramati", date:"2026-08-20", symptoms:["symBleed"], customText:"", notes:"Arrived directly — PHC does not handle obstetric emergencies. Stabilised, kept for observation.", urgency:"emergency", vitals:{bp:"110/70",temp:"98.4",pulse:"90"}, loggedBy:{name:"Dr. Naik", role:"roleDoctor"}},
-      {id:"r3", patientId:"p2", facility:"PHC — Koregaon", date:"2026-08-25", symptoms:["symDehydration","symHighFever"], customText:"", notes:"Severe dehydration, needs IV fluids not available on site.", urgency:"priority", vitals:{bp:"",temp:"104.1",pulse:"130"}, loggedBy:{name:"Rekha Pawar", role:"rolePhc"}},
-      {id:"r4", patientId:"p3", facility:"Sub-Centre — Wagholi", date:"2026-08-18", symptoms:["symRoutineCheck"], customText:"", notes:"Routine sugar check, stable, due again in 4 weeks.", urgency:"routine", vitals:{bp:"128/82",temp:"98.2",pulse:"76"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}},
-      {id:"r5", patientId:"p4", facility:"Sub-Centre — Wagholi", date:"2026-08-27", symptoms:["symFever","symCough"], customText:"", notes:"Mild seasonal fever, advised rest and fluids.", urgency:"routine", vitals:{bp:"118/76",temp:"99.5",pulse:"84"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}},
-      {id:"r6", patientId:"p5", facility:"Sub-Centre — Wagholi", date:"2026-07-05", symptoms:["symRoutineCheck"], customText:"", notes:"First antenatal checkup, 12 weeks pregnant. Iron and folic acid supplements given.", urgency:"routine", vitals:{bp:"110/70",temp:"98.4",pulse:"78"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}},
-      {id:"r7", patientId:"p5", facility:"Sub-Centre — Wagholi", date:"2026-07-28", symptoms:["symRoutineCheck"], customText:"", notes:"Second antenatal visit, 16 weeks. Blood pressure and weight normal.", urgency:"routine", vitals:{bp:"112/72",temp:"98.6",pulse:"80"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}},
-      {id:"r8", patientId:"p5", facility:"Sub-Centre — Wagholi", date:"2026-08-22", symptoms:[], customText:"Sudden swelling in feet and hands, severe headache and blurred vision since yesterday", notes:"28 weeks pregnant. Danger signs noted as per ASHA checklist — referring for evaluation.", urgency:"priority", vitals:{bp:"148/96",temp:"98.8",pulse:"92"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}},
-      {id:"r9", patientId:"p5", facility:"PHC — Koregaon", date:"2026-08-22", symptoms:["symBleed"], customText:"", notes:"On examination: BP 150/100, pedal edema +2. Suspected pre-eclampsia — referring immediately to a facility with obstetric emergency capability.", urgency:"emergency", vitals:{bp:"150/100",temp:"98.6",pulse:"96"}, loggedBy:{name:"Rekha Pawar", role:"rolePhc"}},
-      {id:"r10", patientId:"p5", facility:"Rural Hospital — Baramati", date:"2026-08-23", symptoms:["symBleed"], customText:"", notes:"Admitted for BP management and monitoring. Ultrasound and lab investigations done. Currently stable, continuing observation.", urgency:"priority", vitals:{bp:"138/90",temp:"98.4",pulse:"88"}, loggedBy:{name:"Dr. Ashwini Naik", role:"roleDoctor"}}
+      {id:"r1", patientId:"p1", facility:"Sub-Centre — Wagholi", date:"2026-08-20", symptoms:["symBleed"], customText:"", notes:"Reported light bleeding, 7 months pregnant.", urgency:"emergency", vitals:{bp:"100/60",temp:"98.6",pulse:"110"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}, published:false},
+      {id:"r2", patientId:"p1", facility:"Rural Hospital — Baramati", date:"2026-08-20", symptoms:["symBleed"], customText:"", notes:"Arrived directly — PHC does not handle obstetric emergencies. Stabilised, kept for observation.", urgency:"emergency", vitals:{bp:"110/70",temp:"98.4",pulse:"90"}, loggedBy:{name:"Dr. Naik", role:"roleDoctor"}, published:true, publishedAt:"2026-08-20T10:20:00Z"},
+      {id:"r3", patientId:"p2", facility:"PHC — Koregaon", date:"2026-08-25", symptoms:["symDehydration","symHighFever"], customText:"", notes:"Severe dehydration, needs IV fluids not available on site.", urgency:"priority", vitals:{bp:"",temp:"104.1",pulse:"130"}, loggedBy:{name:"Rekha Pawar", role:"rolePhc"}, published:false},
+      {id:"r4", patientId:"p3", facility:"Sub-Centre — Wagholi", date:"2026-08-18", symptoms:["symRoutineCheck"], customText:"", notes:"Routine sugar check, stable, due again in 4 weeks.", urgency:"routine", vitals:{bp:"128/82",temp:"98.2",pulse:"76"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}, published:false},
+      {id:"r5", patientId:"p4", facility:"Sub-Centre — Wagholi", date:"2026-08-27", symptoms:["symFever","symCough"], customText:"", notes:"Mild seasonal fever, advised rest and fluids.", urgency:"routine", vitals:{bp:"118/76",temp:"99.5",pulse:"84"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}, published:false},
+      {id:"r6", patientId:"p5", facility:"Sub-Centre — Wagholi", date:"2026-07-05", symptoms:["symRoutineCheck"], customText:"", notes:"First antenatal checkup, 12 weeks pregnant. Iron and folic acid supplements given.", urgency:"routine", vitals:{bp:"110/70",temp:"98.4",pulse:"78"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}, published:false},
+      {id:"r7", patientId:"p5", facility:"Sub-Centre — Wagholi", date:"2026-07-28", symptoms:["symRoutineCheck"], customText:"", notes:"Second antenatal visit, 16 weeks. Blood pressure and weight normal.", urgency:"routine", vitals:{bp:"112/72",temp:"98.6",pulse:"80"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}, published:false},
+      {id:"r8", patientId:"p5", facility:"Sub-Centre — Wagholi", date:"2026-08-22", symptoms:[], customText:"Sudden swelling in feet and hands, severe headache and blurred vision since yesterday", notes:"28 weeks pregnant. Danger signs noted as per ASHA checklist — referring for evaluation.", urgency:"priority", vitals:{bp:"148/96",temp:"98.8",pulse:"92"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}, published:false},
+      {id:"r9", patientId:"p5", facility:"PHC — Koregaon", date:"2026-08-22", symptoms:["symBleed"], customText:"", notes:"On examination: BP 150/100, pedal edema +2. Suspected pre-eclampsia — referring immediately to a facility with obstetric emergency capability.", urgency:"emergency", vitals:{bp:"150/100",temp:"98.6",pulse:"96"}, loggedBy:{name:"Rekha Pawar", role:"rolePhc"}, published:false},
+      {id:"r10", patientId:"p5", facility:"Rural Hospital — Baramati", date:"2026-08-23", symptoms:["symBleed"], customText:"", notes:"Admitted for BP management and monitoring. Ultrasound and lab investigations done. Currently stable, continuing observation.", urgency:"priority", vitals:{bp:"138/90",temp:"98.4",pulse:"88"}, loggedBy:{name:"Dr. Ashwini Naik", role:"roleDoctor"}, published:true, publishedAt:"2026-08-23T11:20:00Z"}
     ],
     referrals: [
-      {id:"f1", patientId:"p1", from:"Sub-Centre — Wagholi", to:"Rural Hospital — Baramati", urgency:"emergency", capability:"obstetric_emergency", status:"accepted", createdAt:"2026-08-20"},
-      {id:"f2", patientId:"p2", from:"PHC — Koregaon", to:"Rural Hospital — Baramati", urgency:"priority", capability:"pediatric_emergency", status:"pending", createdAt:"2026-08-25"},
-      {id:"f3", patientId:"p5", from:"Sub-Centre — Wagholi", to:"PHC — Koregaon", urgency:"priority", capability:"basic_checkup", status:"completed", createdAt:"2026-08-22"},
-      {id:"f4", patientId:"p5", from:"PHC — Koregaon", to:"Rural Hospital — Baramati", urgency:"emergency", capability:"obstetric_emergency", status:"accepted", createdAt:"2026-08-22"}
+      {id:"f1", patientId:"p1", from:"Sub-Centre — Wagholi", to:"Rural Hospital — Baramati", urgency:"emergency", capability:"obstetric_emergency", status:"in_progress", createdAt:"2026-08-20T10:00:00"},
+      {id:"f2", patientId:"p2", from:"PHC — Koregaon", to:"Rural Hospital — Baramati", urgency:"priority", capability:"pediatric_emergency", status:"notified", createdAt:new Date(Date.now()-5000).toISOString()},
+      {id:"f3", patientId:"p5", from:"Sub-Centre — Wagholi", to:"PHC — Koregaon", urgency:"priority", capability:"basic_checkup", status:"completed", createdAt:"2026-08-22T10:00:00"},
+      {id:"f4", patientId:"p5", from:"PHC — Koregaon", to:"Rural Hospital — Baramati", urgency:"emergency", capability:"obstetric_emergency", status:"in_progress", createdAt:"2026-08-22T10:00:00"}
+    ],
+    audit: [
+      {id:"au1",type:"publish",message:"Dr. Ashwini Naik published clinical report for Kavita Bhosale",at:"2026-08-23T11:20:00Z",actor:{name:"Dr. Ashwini Naik",role:"roleDoctor"}},
+      {id:"au2",type:"referral",message:"Obstetric emergency referral moved into care at PHC Koregaon",at:"2026-08-22T10:15:00Z",actor:{name:"PHC Team",role:"rolePhc"}}
     ]
   };
 }
 let DB = seedData();
+DB.referrals.forEach(r=>{
+  if(r.status==="pending") r.status="notified";
+  if(!r.createdAtMs) r.createdAtMs=Date.parse(r.createdAt) || Date.now();
+  if(!r.pendingSince) r.pendingSince=r.createdAtMs;
+  if(!r.history) r.history=[];
+});
 let currentFacility = FACILITY_NAMES[0];
 let currentView = "dashboard";
 let recordFormMode = "existing";
@@ -264,8 +360,8 @@ function patientStatus(patientId){
   const refs = DB.referrals.filter(r => r.patientId === patientId).slice().sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
   const recs = DB.records.filter(r => r.patientId === patientId).slice().sort((a,b)=>b.date.localeCompare(a.date));
   if (refs.length && refs[0].status !== "completed"){
-    if (refs[0].status === "pending") return { text: `${t("statusAwaiting")} ${refs[0].to}`, cls:"wait" };
-    if (refs[0].status === "accepted") return { text: `${t("statusUnderTreatment")} ${refs[0].to}`, cls:"" };
+    if (refs[0].status === "notified") return { text: `${t("statusAwaiting")} ${refs[0].to}`, cls:"wait" };
+    if (refs[0].status === "in_progress") return { text: `${t("statusUnderTreatment")} ${refs[0].to}`, cls:"" };
   }
   if (recs.length) return { text: `${t("statusDischarged")} ${recs[0].facility} ${t("onDate")} ${fmtDate(recs[0].date)}`, cls:"done" };
   return { text: t("noActivity"), cls:"" };
@@ -360,14 +456,19 @@ function wireLogin(){
     const role = document.getElementById("login-role").value;
     if (!name) return;
     session = { name, role };
+    const allowed = allowedFacilitiesForRole(role);
+    if (!allowed.includes(currentFacility)) currentFacility = allowed[0];
+    auditEvent("login", `${name} logged in as ${roleLabel(role)}`);
     renderApp();
   };
 }
 
 function wireShell(){
   const sel = document.getElementById("facility-select");
-  sel.innerHTML = FACILITY_NAMES.map(f => `<option value="${f}" ${f===currentFacility?"selected":""}>${f}</option>`).join("");
-  sel.onchange = e => { currentFacility = e.target.value; renderMain(); };
+  const allowedFacilities = allowedFacilitiesForRole(session.role);
+  if (!allowedFacilities.includes(currentFacility)) currentFacility = allowedFacilities[0];
+  sel.innerHTML = allowedFacilities.map(f => `<option value="${f}" ${f===currentFacility?"selected":""}>${f}</option>`).join("");
+  sel.onchange = e => { if (allowedFacilities.includes(e.target.value)){ currentFacility = e.target.value; renderMain(); } };
 
   const navItems = [["dashboard","navDash"], ["newcase","navNew"], ["records","navRecords"], ["referrals","navReferrals"]];
   document.getElementById("nav").innerHTML = navItems.map(([key,label]) =>
@@ -400,39 +501,69 @@ function renderMain(){
 function capabilityLegendPanel(){
   const rows = FACILITIES.map(f => `
     <tr><td><strong>${f.name}</strong></td>
-    <td>${f.capabilities.map(c => `<span class="tag capability">${capLabel(c)}</span>`).join(" ")}</td></tr>
+    <td>${f.services.map(c => `<span class="tag capability">${capLabel(c)}</span>`).join(" ")}</td></tr>
   `).join("");
   return `<div class="panel"><h2>${t("capsHeading")}</h2>
     <p style="margin:-6px 0 14px;color:var(--ink-soft);font-size:13px;">${t("capsSub")}</p>
     <table><tbody>${rows}</tbody></table></div>`;
 }
 
-function viewDashboard(){
-  const incoming = DB.referrals.filter(r => r.to === currentFacility && r.status !== "completed");
-  const followups = DB.patients.filter(p => p.risk && p.risk !== "none");
-  const totalLogged = DB.records.length;
-
-  const incomingRows = incoming.length ? incoming.map(r => {
+function facilityCaseRows(){
+  const map = new Map();
+  DB.records.filter(r => r.facility === currentFacility).forEach(r => {
     const p = patientById(r.patientId);
-    return `<tr><td>${p.name} <span class="tag pid">${p.patientId}</span></td><td>${r.from}</td><td>${urgencyTag(r.urgency)}</td><td><span class="tag ${r.status}">${t(r.status)}</span></td></tr>`;
-  }).join("") : `<tr><td colspan="4" class="empty">${t("noIncoming")}</td></tr>`;
+    if (!p) return;
+    const prev = map.get(p.id);
+    if (!prev || new Date(r.date) > new Date(prev.date)) map.set(p.id, r);
+  });
+  return [...map.values()].sort((a,b) => b.date.localeCompare(a.date)).map(r => {
+    const p = patientById(r.patientId);
+    const high = (p.risk && p.risk !== "none") || r.urgency !== "routine";
+    const level = high ? t("riskHigh") : t("riskLow");
+    const riskClass = high ? "high-risk" : "low-risk";
+    return `<tr class="clickable" data-patient="${p.id}">
+      <td><span class="tag pid">${p.patientId}</span></td>
+      <td><strong>${escapeHtml(p.name)}</strong></td>
+      <td>${t(p.gender)}</td>
+      <td><span class="tag ${riskClass}">${level}</span></td>
+      <td>${p.risk && p.risk !== "none" ? riskTag(p.risk) : "—"}</td>
+      <td>${urgencyTag(r.urgency)}</td>
+      <td>${fmtDate(r.date)}</td>
+    </tr>`;
+  }).join("");
+}
 
-  const followupRows = followups.length ? followups.map(p => {
-    return `<tr><td>${p.name} <span class="tag pid">${p.patientId}</span></td><td>${p.village}</td><td>${riskTag(p.risk)}</td></tr>`;
-  }).join("") : `<tr><td colspan="3" class="empty">${t("noFollowup")}</td></tr>`;
+function viewDashboard(){
+  const facilityRecords = DB.records.filter(r => r.facility === currentFacility);
+  const latestByPatient = new Map();
+  facilityRecords.forEach(r => {
+    const p = patientById(r.patientId);
+    if (!p) return;
+    const prev = latestByPatient.get(p.id);
+    if (!prev || new Date(r.date) > new Date(prev.date)) latestByPatient.set(p.id, r);
+  });
+  const patients = [...latestByPatient.keys()].map(patientById).filter(Boolean);
+  const male = patients.filter(p => p.gender === "male").length;
+  const female = patients.filter(p => p.gender === "female").length;
+  const high = patients.filter(p => { const r=latestByPatient.get(p.id); return (p.risk && p.risk !== "none") || (r && r.urgency !== "routine"); }).length;
+  const low = patients.length - high;
+  const incoming = DB.referrals.filter(r => r.to === currentFacility && r.status === "notified").length;
+  const rows = facilityCaseRows();
+  const table = rows || `<tr><td colspan="7" class="empty">${t("dashboardEmpty")}</td></tr>`;
 
   return `
     <header class="page-head"><h1>${t("dashTitle")}</h1><p>${t("dashSub")} — <strong>${currentFacility}</strong></p></header>
-    <div class="banner"><span>${t("demoNote")}</span><button class="btn ghost" id="reset-demo">${t("resetDemo")}</button></div>
-    <div class="grid-3">
-      <div class="stat warn"><div class="num">${incoming.length}</div><div class="label">${t("statIncoming")}</div></div>
-      <div class="stat amber"><div class="num">${followups.length}</div><div class="label">${t("statFollowup")}</div></div>
-      <div class="stat"><div class="num">${totalLogged}</div><div class="label">${t("statLogged")}</div></div>
+    <div class="grid-3 dashboard-stats">
+      <div class="stat"><div class="num">${patients.length}</div><div class="label">${t("casesHere")}</div></div>
+      <div class="stat"><div class="num">${male}</div><div class="label">${t("maleCases")}</div></div>
+      <div class="stat"><div class="num">${female}</div><div class="label">${t("femaleCases")}</div></div>
+      <div class="stat warn"><div class="num">${high}</div><div class="label">${t("highRisk")}</div></div>
+      <div class="stat amber"><div class="num">${low}</div><div class="label">${t("lowRisk")}</div></div>
+      <div class="stat"><div class="num">${incoming}</div><div class="label">${t("statIncoming")}</div></div>
     </div>
-    <div class="panel"><h2>${t("incomingHeading")}</h2>
-      <table><thead><tr><th>${t("name")}</th><th>${t("from")}</th><th></th><th></th></tr></thead><tbody>${incomingRows}</tbody></table></div>
-    <div class="panel"><h2>${t("followupHeading")}</h2>
-      <table><thead><tr><th>${t("name")}</th><th>${t("village")}</th><th></th></tr></thead><tbody>${followupRows}</tbody></table></div>
+    <div class="panel"><div class="panel-head-row"><div><h2>${t("casesHere")}</h2><p class="panel-sub">${currentFacility}</p></div><button class="btn ghost" id="reset-demo">${t("resetDemo")}</button></div>
+      <div class="table-scroll"><table><thead><tr><th>${t("patientId")}</th><th>${t("name")}</th><th>${t("gender")}</th><th>${t("currentStatus")}</th><th>${t("riskFlag")}</th><th></th><th>${t("onDate")}</th></tr></thead><tbody>${table}</tbody></table></div>
+    </div>
     ${capabilityLegendPanel()}
   `;
 }
@@ -578,6 +709,8 @@ function renderPatientProfile(patientId){
         <div class="t-body">${escapeHtml(r.notes)}</div>
         ${customLine}
         <div class="t-by">${t("loggedBy")}: ${escapeHtml(r.loggedBy.name)} (${roleLabel(r.loggedBy.role)})</div>
+        ${r.published ? `<div class="record-lock">🔒 ${t("locked")} · ${t("published")} ${r.publishedAt ? fmtDate(r.publishedAt) : ""}</div>` : `<div class="record-lock draft">📝 ${t("draft")} · ${canPublishRecord(r)?`<button class="btn small" data-publish="${r.id}">${t("publish")}</button>`:""}</div>`}
+        ${r.published && canAmendRecord(r) ? `<button class="btn small secondary" data-amend="${r.id}">${t("amend")}</button>` : (r.published ? `<div class="record-lock">${t("noEdit")}</div>` : "")}
       </div>`;
     } else {
       const r = ev.data;
@@ -597,42 +730,75 @@ function renderPatientProfile(patientId){
         <span style="font-size:13px;color:var(--ink-soft);">${p.age} yrs · ${t(p.gender)} · ${p.village}</span>
       </div>
       <div class="status-line ${status.cls}">${t("currentStatus")}: ${status.text}</div>
+      <h3>${t("journeyTitle")}</h3>
+      <div class="journey-strip">${events.map(ev=>{
+        if(ev.type==="record"){ const r=ev.data; return `<div class="journey-step"><div class="j-label">Visit / report</div><div class="j-main">${escapeHtml(r.facility)}</div><div class="j-meta">${fmtDate(r.date)} · ${r.published?"🔒 Published":"Draft"}</div></div>`; }
+        const r=ev.data; const statusLabel = {notified:t("pending"), in_progress:t("inProgress"), completed:t("completed"), rejected:t("rejected")}[r.status] || r.status;
+        return `<div class="journey-step"><div class="j-label">Referral</div><div class="j-main">${escapeHtml(r.to)}</div><div class="j-meta">${r.status==="notified" && !r.lastEscalatedAt?"🤖 "+t("aiMonitoring"):(r.escalationCount?`⚡ ${t("escalated")} #${r.escalationCount}`:statusLabel)}</div></div>`;
+      }).join("")}</div>
       <h3>${t("medicalHistory")}</h3>
       <div class="timeline">${items}</div>
     </div>
+    <div class="panel"><h2>${t("auditTitle")}</h2>${(DB.audit||[]).filter(a=>a.patientId===patientId || (a.message||"").includes(p.name)).slice(0,10).map(a=>`<div class="audit-row"><strong>${a.type}</strong><span>${escapeHtml(a.message)}</span><small>${fmtDate(a.at)}</small></div>`).join("") || `<p class="empty">No audit events.</p>`}</div>
     ${attachmentsBlock(p)}
   `;
 }
 
 function viewReferrals(){
+  processAutomaticEscalations();
   const incoming = DB.referrals.filter(r => r.to === currentFacility);
-  const sent = DB.referrals.filter(r => r.from === currentFacility);
+  const sent = DB.referrals.filter(r => r.from === currentFacility || r.previousFacility === currentFacility);
 
-  function column(list, emptyLabel){
-    const groups = {pending:[], accepted:[], completed:[]};
-    list.forEach(r => groups[r.status].push(r));
-    return ["pending","accepted","completed"].map(status => `
-      <div class="kanban-col"><h3>${t(status)} <span class="count">${groups[status].length}</span></h3>
-        ${groups[status].length ? groups[status].map(r => refCard(r)).join("") : `<p class="empty">${emptyLabel}</p>`}
-      </div>`).join("");
+  function timeLeft(r){
+    if (r.status !== "notified") return "";
+    const left = Math.max(0, responseWindowMs() - (Date.now() - referralCreatedMs(r)));
+    const mins = Math.floor(left / 60000), secs = Math.floor((left % 60000)/1000);
+    return `${mins}m ${secs.toString().padStart(2,"0")}s`;
+  }
+  function refStatus(r){
+    if (r.status === "notified") return t("pending");
+    if (r.status === "in_progress") return t("inProgress");
+    if (r.status === "completed") return t("completed");
+    if (r.status === "rejected") return t("rejected");
+    return r.status;
   }
   function refCard(r){
     const p = patientById(r.patientId);
+    if (!p) return "";
     let action = "";
-    if (r.status === "pending" && r.to === currentFacility) action = `<button class="btn small" data-accept="${r.id}">${t("accept")}</button>`;
-    if (r.status === "accepted" && r.to === currentFacility) action = `<button class="btn small secondary" data-complete="${r.id}">${t("complete")}</button>`;
+    if (r.status === "notified" && r.to === currentFacility){
+      action = `<button class="btn small danger" data-reject="${r.id}">${t("unableBtn")}</button>`;
+    } else if (r.status === "in_progress" && r.to === currentFacility){
+      action = `<button class="btn small secondary" data-complete="${r.id}">${t("complete")}</button>`;
+    }
+    const timer = r.status === "notified" && r.to === currentFacility ? `<div class="response-timer"><span>${t("timeRemaining")}</span><strong data-timer-id="${r.id}">${timeLeft(r)}</strong></div>` : "";
+    const rejection = r.rejectionReason ? `<div class="ref-reason"><strong>${t("rejectedReason")}:</strong> ${escapeHtml(r.rejectionReason)}</div>` : "";
+    const escalation = r.lastEscalatedAt ? `<div class="ai-escalated">${t("escalated")} #${r.escalationCount || 1}: ${escapeHtml(r.escalationReason || "")}</div>` : "";
+    const registry = facilityByName(r.to);
+    const specialists = registry && registry.specialists.length ? `<div class="meta">${registry.specialists.map(x=>escapeHtml(x.replaceAll("_"," "))).join(", ")}</div>` : "";
     return `<div class="ref-card ${r.urgency}">
-      <div class="name">${p.name} <span class="tag pid">${p.patientId}</span></div>
+      <div class="name">${escapeHtml(p.name)} <span class="tag pid">${p.patientId}</span></div>
       <div class="meta">${r.from} → ${r.to}</div>
-      <div class="meta">${urgencyTag(r.urgency)} ${r.capability ? `<span class="tag capability">${capLabel(r.capability)}</span>` : ""}</div>
+      <div class="meta">${urgencyTag(r.urgency)} ${r.capability ? `<span class="tag capability">${capLabel(r.capability)}</span>` : ""} ${r.specialist ? `<span class="tag capability">${escapeHtml(r.specialist)}</span>` : ""} <span class="tag">${refStatus(r)}</span></div>
+      ${specialists}${timer}${rejection}${escalation}
       <div class="actions">${action}</div>
     </div>`;
   }
 
+  function column(list, title){
+    const items = list.filter(r => ["notified","in_progress","completed","rejected"].includes(r.status));
+    return `<div class="ref-list"><h3>${title} <span class="count">${items.length}</span></h3>${items.length ? items.map(refCard).join("") : `<p class="empty">${t("noneHere")}</p>`}</div>`;
+  }
+
   return `
     <header class="page-head"><h1>${t("referralsTitle")}</h1><p>${t("referralsSub")} — <strong>${currentFacility}</strong></p></header>
-    <div class="panel"><h2>${t("incoming")}</h2><div class="kanban">${column(incoming, t("noneHere"))}</div></div>
-    <div class="panel"><h2>${t("sent")}</h2><div class="kanban">${column(sent, t("noneHere"))}</div></div>
+    <div class="panel"><h2>${t("incoming")}</h2><div class="kanban">
+      ${column(incoming.filter(r=>r.status==="notified"), t("pending"))}
+      ${column(incoming.filter(r=>r.status==="in_progress"), t("inProgress"))}
+    </div></div>
+    <div class="panel"><h2>${t("sent")}</h2><div class="kanban">
+      ${column(sent, t("sent"))}
+    </div></div>
   `;
 }
 
@@ -676,18 +842,24 @@ function wireView(){
         temp: document.getElementById("vital-temp").value.trim(),
         pulse: document.getElementById("vital-pulse").value.trim()
       };
-      const { urgency, capability } = assessCase(symptoms, customText);
+      const { urgency, capability, specialist } = assessCase(symptoms, customText);
       DB.records.push({
         id:uid("r"), patientId, facility:currentFacility, date:new Date().toISOString().slice(0,10),
         symptoms, customText, notes, urgency, vitals,
-        loggedBy:{ name: session.name, role: session.role }
+        loggedBy:{ name: session.name, role: session.role }, published:false
+      });
+
+      DB.referrals.filter(r => r.patientId === patientId && r.to === currentFacility && r.status === "notified").forEach(r => {
+        r.status = "in_progress";
+        r.respondedAt = new Date().toISOString();
+        appendAudit(r, "FACILITY_STARTED_CARE", session.name, "Clinical record created at destination facility");
       });
 
       let resultBlock = "";
       if (urgency !== "routine"){
-        const route = routeReferral(currentFacility, capability);
+        const route = routeReferral(currentFacility, capability, specialist);
         if (route.to){
-          DB.referrals.push({id:uid("f"), patientId, from:currentFacility, to:route.to, urgency, capability, status:"pending", createdAt:new Date().toISOString().slice(0,10)});
+          DB.referrals.push({id:uid("f"), patientId, from:currentFacility, to:route.to, urgency, capability, status:"notified", createdAt:new Date().toISOString(), responseWindowHours:RESPONSE_WINDOW_HOURS, specialist, createdAtMs:Date.now(), pendingSince:Date.now(), escalationLevel:0, history:[]});
           const skippedLine = route.skipped.length ? `<div style="margin-top:6px;font-size:12.5px;color:#8A4A0F;">${t("skippedNote")} ${route.skipped.join(", ")}</div>` : "";
           resultBlock = `<div class="flash">${t("resultUrgency")}: ${urgencyTag(urgency)} — ${t("refer")} <strong>${route.to}</strong> (${t("routedBecause")}: ${capLabel(capability)}). ${t("referBtn")} ✓${skippedLine}</div>`;
         } else {
@@ -711,10 +883,15 @@ function wireView(){
       refocused.focus();
       refocused.setSelectionRange(val.length, val.length);
     };
-    document.querySelectorAll("tr[data-patient]").forEach(row => {
-      row.onclick = () => { openPatientId = row.dataset.patient; renderMain(); };
-    });
   }
+  // Applies on every view that renders clickable patient rows (Records AND
+  // the Facility Dashboard's case table). Only the Records view has a
+  // container to display the opened profile, so clicking a row also
+  // switches to it — otherwise a Dashboard click would set state with
+  // nothing visibly happening.
+  document.querySelectorAll("tr[data-patient]").forEach(row => {
+    row.onclick = () => { openPatientId = row.dataset.patient; currentView = "records"; renderMain(); };
+  });
 
   const uploadBtn = document.getElementById("attach-upload-btn");
   if (uploadBtn){
@@ -736,13 +913,43 @@ function wireView(){
     };
   }
 
-  document.querySelectorAll("[data-accept]").forEach(btn => {
-    btn.onclick = () => { const r = DB.referrals.find(x => x.id === btn.dataset.accept); if (r) r.status = "accepted"; renderMain(); };
+  document.querySelectorAll("[data-publish]").forEach(btn=>{ btn.onclick=()=>{ const r=DB.records.find(x=>x.id===btn.dataset.publish); if(!r||!canPublishRecord(r)) return; r.published=true; r.publishedAt=new Date().toISOString(); auditEvent("publish", `Clinical report published for ${patientById(r.patientId).name}`, {patientId:r.patientId,recordId:r.id}); renderMain(); }; });
+  document.querySelectorAll("[data-amend]").forEach(btn=>{ btn.onclick=()=>{ const r=DB.records.find(x=>x.id===btn.dataset.amend); if(!r||!canAmendRecord(r)) return; const text=prompt("Enter amendment / addendum:"); if(!text) return; DB.records.push({id:uid("r"),patientId:r.patientId,facility:currentFacility,date:new Date().toISOString().slice(0,10),symptoms:[],customText:"",notes:text,urgency:r.urgency,vitals:r.vitals,loggedBy:{name:session.name,role:session.role},published:true,publishedAt:new Date().toISOString(),amendsRecordId:r.id,recordType:"amendment"}); auditEvent("amendment", `Amendment added to clinical report ${r.id}`, {patientId:r.patientId,recordId:r.id,amendsRecordId:r.id}); renderMain(); }; });
+  document.querySelectorAll("[data-reject]").forEach(btn => {
+    btn.onclick = () => {
+      const r = DB.referrals.find(x => x.id === btn.dataset.reject);
+      if (!r || r.status !== "notified" || r.to !== currentFacility) return;
+      const reason = prompt(t("rejectConfirm"));
+      if (!reason || !reason.trim()) return;
+      r.status = "rejected";
+      r.rejectionReason = reason.trim();
+      r.rejectedAt = new Date().toISOString();
+      appendAudit(r, "FACILITY_REJECTED", session.name, r.rejectionReason);
+      auditEvent("referral-rejected", `Referral ${r.id} rejected at ${r.to}`, {referralId:r.id,patientId:r.patientId,reason:r.rejectionReason});
+      autoEscalateReferral(r, r.rejectionReason);
+      renderMain();
+    };
   });
   document.querySelectorAll("[data-complete]").forEach(btn => {
-    btn.onclick = () => { const r = DB.referrals.find(x => x.id === btn.dataset.complete); if (r) r.status = "completed"; renderMain(); };
+    btn.onclick = () => { const r = DB.referrals.find(x => x.id === btn.dataset.complete); if (r){ r.status = "completed"; r.completedAt = new Date().toISOString(); auditEvent("referral-completed", `Referral ${r.id} completed at ${r.to}`, {referralId:r.id,patientId:r.patientId}); } renderMain(); };
   });
 }
+
+/* ============================= automatic escalation loop ============================= */
+setInterval(() => {
+  if (!session) return;
+  if (processAutomaticEscalations()) renderMain();
+  else {
+    document.querySelectorAll("[data-timer-id]").forEach(el => {
+      const r = DB.referrals.find(x => x.id === el.dataset.timerId);
+      if (r && r.status === "notified" && r.to === currentFacility) {
+        const left=Math.max(0,responseWindowMs()-(Date.now()-referralCreatedMs(r)));
+        const mins=Math.floor(left/60000), secs=Math.floor((left%60000)/1000);
+        el.textContent=`${mins}m ${secs.toString().padStart(2,"0")}s`;
+      }
+    });
+  }
+}, 1000);
 
 /* ============================= init ============================= */
 renderApp();
