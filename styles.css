@@ -143,6 +143,18 @@ nav button:focus-visible, select:focus-visible, input:focus-visible, textarea:fo
 #lang-toggle button.active{color:#fff;font-weight:700;}
 #lang-toggle button:hover{color:#fff;}
 
+.conn-pill{
+  margin-top:14px;width:100%;display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:20px;
+  color:#CBDCE8;font-size:12px;font-weight:600;padding:8px 12px;cursor:pointer;transition:background 0.15s;
+}
+.conn-pill:hover{background:rgba(255,255,255,0.12);}
+.conn-pill .dot{width:8px;height:8px;border-radius:50%;background:#3FBE6E;flex:none;box-shadow:0 0 0 3px rgba(63,190,110,0.18);}
+.conn-pill.is-offline{background:rgba(211,84,50,0.18);border-color:rgba(211,84,50,0.4);color:#FFDCCB;}
+.conn-pill.is-offline .dot{background:#E8792B;box-shadow:0 0 0 3px rgba(232,121,43,0.22);}
+
+.notice-banner.offline-banner{background:#fff4ec;border-color:#f0c8a8;color:#7a3d10;font-size:12.5px;line-height:1.5;}
+
 #main{flex:1;min-width:0;padding:32px 40px 56px;max-width:1140px;}
 #main.enter{animation:mainEnter 0.32s ease both;}
 @keyframes mainEnter{ from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
@@ -282,8 +294,8 @@ fieldset legend{font-size:13px;font-weight:600;padding:0 6px;color:var(--primary
 .ai-flow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--ink-soft)}
 .ai-flow span{padding:7px 10px;background:#F5F8FB;border:1px solid var(--border);border-radius:999px;font-weight:600}
 .ai-flow b{color:var(--primary);font-size:16px}
-.audit-row{display:grid;grid-template-columns:120px 1fr auto;gap:10px;padding:9px 0;border-bottom:1px solid #EEF1F5;font-size:12px;align-items:center}
-.audit-row:last-child{border-bottom:none}.audit-row strong{text-transform:capitalize;color:var(--primary-dark)}.audit-row span{color:var(--ink-soft)}.audit-row small{color:var(--ink-faint)}
+.audit-row{display:grid;grid-template-columns:120px 1fr auto;gap:10px;padding:9px 0;border-bottom:1px solid #EEF1F5;font-size:12px;align-items:start}
+.audit-row:last-child{border-bottom:none}.audit-row strong{text-transform:capitalize;color:var(--primary-dark);overflow-wrap:anywhere;word-break:break-word;line-height:1.35}.audit-row span{color:var(--ink-soft);overflow-wrap:anywhere}.audit-row small{color:var(--ink-faint);white-space:nowrap}
 .journey-strip{display:flex;gap:0;overflow-x:auto;padding:8px 0 16px;margin-bottom:8px}
 .journey-step{min-width:155px;padding:12px;border:1px solid var(--border);background:#fff;position:relative}
 .journey-step:first-child{border-radius:10px 0 0 10px}.journey-step:last-child{border-radius:0 10px 10px 0}.journey-step + .journey-step{border-left:none}
@@ -294,7 +306,7 @@ fieldset legend{font-size:13px;font-weight:600;padding:0 6px;color:var(--primary
 /* Referral notification + automatic escalation */
 .notice-banner{padding:12px 14px;margin:12px 0;border:1px solid #c8ddea;border-radius:10px;background:#f4f9fc;color:#21445a;font-size:13px;}
 .ai-monitor{margin-top:10px;padding:8px 10px;border-radius:8px;background:#fff7e8;color:#8a4a0f;font-size:12px;}
-.ai-escalated{margin-top:8px;padding:8px 10px;border-radius:8px;background:#fff0ef;color:#a32920;font-size:12px;font-weight:600;}
+.reroute-note{margin-top:8px;padding:6px 10px;border-radius:8px;background:var(--primary-tint);color:var(--primary-dark);font-size:11.5px;font-weight:500;}
 .tag.published{background:#edf8f0;color:#176b38;border:1px solid #bfe2ca;}
 .tag.draft{background:#fff7e8;color:#8a4a0f;border:1px solid #efd29b;}
 
@@ -312,3 +324,56 @@ fieldset legend{font-size:13px;font-weight:600;padding:0 6px;color:var(--primary
 .ref-list{min-width:0;flex:1;}
 .ref-list h3{margin-top:0;}
 @media (max-width:900px){.dashboard-stats{grid-template-columns:repeat(2,minmax(0,1fr));}}
+
+/* ============================= real-time accept / reject / reroute UI ============================= */
+.response-timer em{font-style:normal;font-weight:400;color:var(--ink-faint);font-size:11px;}
+
+.reject-form{margin-top:2px;display:flex;flex-direction:column;gap:8px;}
+.reject-reason-input{
+  width:100%;resize:vertical;min-height:44px;padding:8px 10px;border:1px solid var(--border);
+  border-radius:var(--radius-sm);font-family:inherit;font-size:12.5px;color:var(--ink);
+}
+.reject-reason-input:focus{outline:none;border-color:var(--urgent);box-shadow:0 0 0 3px var(--urgent-tint);}
+.reject-reason-input.input-error{border-color:var(--urgent);box-shadow:0 0 0 3px var(--urgent-tint);}
+.reject-form-actions{display:flex;gap:8px;}
+
+.urgent-flag{
+  display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;color:#fff;
+  background:var(--urgent);border-radius:100px;padding:3px 10px;margin-bottom:8px;
+  animation:urgentFlagPulse 1.4s ease-in-out infinite;
+}
+.ref-card.urgent-pulse{animation:urgentCardPulse 1.8s ease-in-out infinite;}
+@keyframes urgentFlagPulse{0%,100%{opacity:1;}50%{opacity:0.55;}}
+@keyframes urgentCardPulse{
+  0%,100%{box-shadow:var(--shadow-sm);}
+  50%{box-shadow:0 0 0 3px var(--urgent-tint), var(--shadow-md);}
+}
+
+/* Toast — confirms accept / reject / re-route happened, live, without a page reload */
+.toast-banner{
+  position:fixed;top:18px;left:50%;transform:translate(-50%,-16px);
+  background:var(--primary-dark);color:#fff;padding:12px 20px;border-radius:var(--radius-md);
+  font-size:13.5px;font-weight:600;box-shadow:var(--shadow-md);z-index:1000;
+  opacity:0;transition:opacity 0.25s ease, transform 0.25s ease;max-width:90vw;text-align:center;
+}
+.toast-banner.show{opacity:1;transform:translate(-50%,0);}
+.toast-banner.success{background:var(--govgreen);}
+.toast-banner.warn{background:var(--priority);}
+
+/* Facility dashboard incoming referral queue */
+.dashboard-referral-row{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:12px 0;border-bottom:1px solid #EEF1F5;
+}
+.dashboard-referral-row:last-child{border-bottom:none;}
+.dashboard-referral-row .meta{font-size:12px;color:var(--ink-soft);margin-top:4px;}
+.dashboard-referral-right{display:flex;align-items:center;gap:10px;flex:none;}
+.response-mini{
+  min-width:72px;text-align:center;padding:7px 9px;border:1px solid #f0c979;
+  background:#fff8e8;color:#8a5a00;border-radius:8px;font-weight:700;
+  font-variant-numeric:tabular-nums;font-size:12px;
+}
+@media (max-width:640px){
+  .dashboard-referral-row{align-items:flex-start;flex-direction:column;}
+  .dashboard-referral-right{width:100%;justify-content:space-between;}
+}

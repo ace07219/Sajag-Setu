@@ -12,7 +12,7 @@ const STR = {
     navDash:"Dashboard", navNew:"New case", navRecords:"Patient records", navReferrals:"Referrals",
     dashTitle:"Facility dashboard", dashSub:"What needs attention at this facility right now.",
     statIncoming:"Incoming referrals", statFollowup:"High-risk follow-ups due", statLogged:"Cases logged (all time)",
-    incomingHeading:"Incoming referrals & notifications", followupHeading:"Patients needing follow-up",
+    incomingHeading:"Incoming referrals", followupHeading:"Patients needing follow-up",
     noIncoming:"No referrals waiting on this facility.", noFollowup:"No flagged follow-ups right now.",
     capsHeading:"What each facility can actually treat",
     capsSub:"Government facility data guides routing using registered specialists, services, diagnostics, medicines and equipment.",
@@ -39,8 +39,8 @@ const STR = {
     demoAttachmentNote:"(demo entry — no file attached)",
     referralsTitle:"Referrals", referralsSub:"Cases moving between facilities, tracked end to end.",
     incoming:"Incoming", sent:"Sent by this facility",
-    pending:"Notified", inProgress:"In care", unable:"Unable to accommodate", escalatedStatus:"Escalated", completed:"Completed",
-    noAcceptNeeded:"Referral awaiting facility response", unableBtn:"Reject referral", unablePrompt:"Why is this facility unable to take the case?", complete:"Mark complete", noneHere:"Nothing here.",
+    pending:"Awaiting response", inProgress:"In care", unable:"Unable to accommodate", escalatedStatus:"Escalated", completed:"Completed",
+    noAcceptNeeded:"Response required", unableBtn:"Reject referral", unablePrompt:"Why is this facility unable to take the case?", complete:"Mark complete", noneHere:"Nothing here.",
     casesHere:"Cases currently at this facility", maleCases:"Male patients", femaleCases:"Female patients", highRisk:"High risk", lowRisk:"Low risk", riskHigh:"High risk", riskLow:"Low risk", rejectConfirm:"Reject this referral? Enter the reason:", rejected:"Rejected", rejectedReason:"Reason", timeRemaining:"Time remaining", dashboardEmpty:"No cases are currently recorded at this facility.",
     urgencyEmergency:"Emergency", urgencyPriority:"Priority", urgencyRoutine:"Routine",
     from:"From", to:"To", referredTo:"Referred to",
@@ -54,12 +54,25 @@ const STR = {
     resetDemo:"Reset demo data",
     journeyTitle:"Patient journey", auditTitle:"Audit trail", aiEscalation:"AI auto-escalation",
     aiMonitoring:"Response window", escalated:"Auto-escalated",
-    escalationReason:"No response within the 12-hour facility response window", unableReason:"Facility reported an operational problem", nextFacility:"Next nearest registered facility",
-    responseWindow:"12-hour response window", notifyOnly:"Response window active",
+    rerouteNoteTemplate:"Re-routed from {from}: {reason}",
+    escalationReasonTemplate:"No response within the {window} facility response window", unableReason:"Facility reported an operational problem", nextFacility:"Next nearest registered facility",
+    windowLabelEmergency:"3-hour", windowLabelStandard:"3-hour",
+    windowLabelEmergencyOblique:"3-hour", windowLabelStandardOblique:"3-hour",
+    responseWindowTemplate:"{window} response window", notifyOnly:"Response window active",
+    acceptBtn:"Accept referral", confirmReject:"Confirm rejection", cancel:"Cancel",
+    acceptedToast:"Accepted — case now in progress at {facility}",
+    rerouteToast:"Rejected at {from} — instantly re-routed to {to}",
+    noNextFacility:"No other registered facility currently has this capability.",
+    respondNow:"Emergency — respond immediately",
     published:"Published", draft:"Draft", locked:"Locked clinical report", publish:"Publish report",
     amend:"Add amendment", amendment:"Amendment", noEdit:"This clinical report is locked. Lower-level roles cannot modify a published report.",
-    aiDemo:"Demo timer: 20 seconds", audit:"Audit trail",
-    acceptedAt:"Accepted at", escalatedAt:"Escalated at", aiDecision:"AI decision", pendingFor:"Pending for"
+    aiDemo:"Demo timer: 15 seconds", audit:"Audit trail",
+    acceptedAt:"Accepted at", escalatedAt:"Escalated at", aiDecision:"AI decision", pendingFor:"Pending for",
+    goOffline:"Simulate offline", goOnline:"Back online",
+    offlineBannerTitle:"Offline mode — device has no connectivity",
+    offlineBannerBody:"New cases and referrals are being saved on this device only. They'll sync automatically once connectivity returns.",
+    offlineQueueCount:"queued, not yet synced", syncedToast:"Synced to central record — all queued items sent",
+    queuedTag:"Queued — will sync when online"
   },
   mr:{
     brand:"सजग सेतू", brandSub:"गावापासून रुग्णालयापर्यंत सलग काळजी",
@@ -73,7 +86,7 @@ const STR = {
     navDash:"डॅशबोर्ड", navNew:"नवीन रुग्ण नोंद", navRecords:"रुग्ण नोंदी", navReferrals:"रेफरल्स",
     dashTitle:"सुविधा डॅशबोर्ड", dashSub:"या सुविधेत सध्या लक्ष देण्याची गरज असलेल्या गोष्टी.",
     statIncoming:"येणारे रेफरल्स", statFollowup:"उच्च-जोखीम पाठपुरावा बाकी", statLogged:"नोंदवलेली प्रकरणे (एकूण)",
-    incomingHeading:"येणारे रेफरल्स व सूचना", followupHeading:"पाठपुरावा आवश्यक असलेले रुग्ण",
+    incomingHeading:"येणारे रेफरल्स", followupHeading:"पाठपुरावा आवश्यक असलेले रुग्ण",
     noIncoming:"या सुविधेसाठी कोणतेही रेफरल प्रलंबित नाही.", noFollowup:"सध्या कोणताही पाठपुरावा प्रलंबित नाही.",
     capsHeading:"प्रत्येक सुविधा प्रत्यक्षात काय उपचार करू शकते",
     capsSub:"शासकीय नोंदणीत असलेले तज्ज्ञ, सेवा, तपासण्या, औषधे व उपकरणांची माहिती रेफरल ठरवण्यासाठी वापरली जाते.",
@@ -100,8 +113,8 @@ const STR = {
     demoAttachmentNote:"(नमुना नोंद — फाईल संलग्न नाही)",
     referralsTitle:"रेफरल्स", referralsSub:"सुविधांदरम्यान हलणारी प्रकरणे, सुरुवातीपासून शेवटपर्यंत ट्रॅक केलेली.",
     incoming:"येणारे", sent:"या सुविधेने पाठवलेले",
-    pending:"सूचित", inProgress:"उपचार सुरू", unable:"उपचार देणे शक्य नाही", escalatedStatus:"पुढे पाठवले", completed:"पूर्ण झाले",
-    noAcceptNeeded:"रेफरलवर सुविधेचा प्रतिसाद बाकी", unableBtn:"रेफरल नाकारावे", unablePrompt:"ही सुविधा हे प्रकरण का घेऊ शकत नाही?", complete:"पूर्ण म्हणून चिन्हांकित करा", noneHere:"येथे काहीही नाही.",
+    pending:"प्रतिसाद बाकी", inProgress:"उपचार सुरू", unable:"उपचार देणे शक्य नाही", escalatedStatus:"पुढे पाठवले", completed:"पूर्ण झाले",
+    noAcceptNeeded:"प्रतिसाद आवश्यक", unableBtn:"रेफरल नाकारावे", unablePrompt:"ही सुविधा हे प्रकरण का घेऊ शकत नाही?", complete:"पूर्ण म्हणून चिन्हांकित करा", noneHere:"येथे काहीही नाही.",
     casesHere:"या सुविधेतील सध्याची प्रकरणे", maleCases:"पुरुष रुग्ण", femaleCases:"महिला रुग्ण", highRisk:"उच्च जोखीम", lowRisk:"कमी जोखीम", riskHigh:"उच्च जोखीम", riskLow:"कमी जोखीम", rejectConfirm:"हे रेफरल नाकारायचे आहे का? कारण लिहा:", rejected:"नाकारले", rejectedReason:"कारण", timeRemaining:"उरलेला वेळ", dashboardEmpty:"या सुविधेत सध्या कोणतेही प्रकरण नोंदलेले नाही.",
     urgencyEmergency:"तातडीचे", urgencyPriority:"प्राधान्य", urgencyRoutine:"नियमित",
     from:"पासून", to:"पर्यंत", referredTo:"येथे पाठवले",
@@ -114,13 +127,26 @@ const STR = {
     demoNote:"नमुना डेमो माहिती — रेफरल साखळी लगेच दिसण्यासाठी आधीच भरलेली आहे.",
     resetDemo:"डेमो माहिती पुन्हा सुरू करा",
     journeyTitle:"रुग्णाचा प्रवास", auditTitle:"ऑडिट ट्रेल", aiEscalation:"AI स्वयंचलित एस्कलेशन",
-    aiMonitoring:"AI सूचित रेफरल्सवर लक्ष ठेवत आहे", escalated:"स्वयंचलितपणे पुढे पाठवले",
-    escalationReason:"12 तासांच्या प्रतिसाद कालावधीत सुविधा प्रतिसाद देत नाही", unableReason:"सुविधेने कार्यात्मक अडचण कळवली", nextFacility:"पुढील जवळची नोंदणीकृत सुविधा",
-    responseWindow:"12 तासांचा प्रतिसाद कालावधी", notifyOnly:"प्रतिसाद कालावधी सुरू",
+    aiMonitoring:"प्रतिसाद कालावधी सुरू आहे", escalated:"स्वयंचलितपणे पुढे पाठवले",
+    rerouteNoteTemplate:"{from} वरून पुनर्निर्देशित: {reason}",
+    escalationReasonTemplate:"{window} प्रतिसाद कालावधीत सुविधा प्रतिसाद देत नाही", unableReason:"सुविधेने कार्यात्मक अडचण कळवली", nextFacility:"पुढील जवळची नोंदणीकृत सुविधा",
+    windowLabelEmergency:"3 तासांचा", windowLabelStandard:"3 तासांचा",
+    windowLabelEmergencyOblique:"3 तासांच्या", windowLabelStandardOblique:"3 तासांच्या",
+    responseWindowTemplate:"{window} प्रतिसाद कालावधी", notifyOnly:"प्रतिसाद कालावधी सुरू",
+    acceptBtn:"रेफरल स्वीकारा", confirmReject:"नकार निश्चित करा", cancel:"रद्द करा",
+    acceptedToast:"स्वीकारले — प्रकरण आता {facility} येथे उपचाराधीन आहे",
+    rerouteToast:"{from} येथे नाकारले — त्वरित {to} कडे पुनर्निर्देशित केले",
+    noNextFacility:"या क्षमतेसह सध्या इतर कोणतीही नोंदणीकृत सुविधा उपलब्ध नाही.",
+    respondNow:"आपत्कालीन — त्वरित प्रतिसाद द्या",
     published:"प्रकाशित", draft:"मसुदा", locked:"लॉक केलेला वैद्यकीय अहवाल", publish:"अहवाल प्रकाशित करा",
     amend:"दुरुस्ती जोडा", amendment:"दुरुस्ती", noEdit:"हा वैद्यकीय अहवाल लॉक आहे. खालच्या स्तरातील भूमिका प्रकाशित अहवाल बदलू शकत नाहीत.",
-    aiDemo:"डेमो टाइमर: 20 सेकंद", audit:"ऑडिट ट्रेल",
-    acceptedAt:"स्वीकारले", escalatedAt:"एस्कलेशन", aiDecision:"AI निर्णय", pendingFor:"प्रलंबित कालावधी"
+    aiDemo:"डेमो टाइमर: 15 सेकंद", audit:"ऑडिट ट्रेल",
+    acceptedAt:"स्वीकारले", escalatedAt:"एस्कलेशन", aiDecision:"AI निर्णय", pendingFor:"प्रलंबित कालावधी",
+    goOffline:"ऑफलाइन सिम्युलेट करा", goOnline:"पुन्हा ऑनलाइन",
+    offlineBannerTitle:"ऑफलाइन मोड — डिव्हाइसला इंटरनेट कनेक्टिव्हिटी नाही",
+    offlineBannerBody:"नवीन प्रकरणे आणि रेफरल्स सध्या फक्त याच डिव्हाइसवर जतन होत आहेत. कनेक्टिव्हिटी परत आल्यावर ती आपोआप सिंक होतील.",
+    offlineQueueCount:"सिंक बाकी", syncedToast:"मध्यवर्ती नोंदीशी सिंक पूर्ण — सर्व प्रलंबित नोंदी पाठवल्या",
+    queuedTag:"रांगेत — ऑनलाइन झाल्यावर सिंक होईल"
   }
 };
 let lang = "en";
@@ -180,13 +206,18 @@ function routeReferral(fromFacilityName, capability, specialist){
 }
 
 /* ============================= automatic facility response / escalation ============================= */
-const RESPONSE_WINDOW_HOURS = 12;
-const DEMO_ESCALATION_MS = 20000; // 20s demo; production policy is 12 hours.
+/* Every referral gets the same 3-hour facility response window.
+   For the live prototype demo, the 3 hours are compressed to 15 seconds. */
+const RESPONSE_WINDOW_HOURS = { emergency: 3, priority: 3, routine: 3 };
+const DEMO_ESCALATION_MS = { emergency: 15000, priority: 15000, routine: 15000 };
+function responseWindowHoursFor(urgency){ return RESPONSE_WINDOW_HOURS[urgency] || RESPONSE_WINDOW_HOURS.priority; }
 function referralCreatedMs(r){
   const value = Date.parse(r.createdAt);
   return Number.isFinite(value) ? value : Date.now();
 }
-function responseWindowMs(){ return DEMO_ESCALATION_MS; }
+function responseWindowMs(urgency){ return DEMO_ESCALATION_MS[urgency] || DEMO_ESCALATION_MS.priority; }
+function windowLabel(urgency){ return urgency === "emergency" ? t("windowLabelEmergency") : t("windowLabelStandard"); }
+function windowLabelOblique(urgency){ return urgency === "emergency" ? t("windowLabelEmergencyOblique") : t("windowLabelStandardOblique"); }
 function nextRegisteredFacility(fromFacilityName, capability, specialist){
   return routeReferral(fromFacilityName, capability, specialist).to;
 }
@@ -205,22 +236,30 @@ function autoEscalateReferral(r, reason){
   const next = nextRegisteredFacility(r.to, r.capability, r.specialist);
   if (!next) return false;
   const oldTo = r.to;
+  r.routeHistory = r.routeHistory || [];
+  r.routeHistory.push({
+    from: oldTo,
+    to: next,
+    reason: reason || "",
+    at: new Date().toISOString()
+  });
   r.escalationCount = (r.escalationCount || 0) + 1;
   r.previousFacility = oldTo;
   r.to = next;
   r.status = "notified";
   r.createdAt = new Date().toISOString();
   r.lastEscalatedAt = r.createdAt;
-  r.escalationReason = reason || t("escalationReason");
-  appendAudit(r, "AI_AUTO_ESCALATION", "Sajag Setu Escalation Engine", `${oldTo} → ${next}: ${r.escalationReason}`);
+  r.escalationReason = reason || t("escalationReasonTemplate").replace("{window}", windowLabelOblique(r.urgency));
+  appendAudit(r, "auto-escalated", "Sajag Setu Escalation Engine", `${oldTo} → ${next}: ${r.escalationReason}`);
   return true;
 }
 function processAutomaticEscalations(){
   let changed = false;
   DB.referrals.forEach(r => {
     if (r.status !== "notified") return;
-    if (Date.now() - referralCreatedMs(r) >= responseWindowMs()){
-      changed = autoEscalateReferral(r, t("escalationReason")) || changed;
+    if (Date.now() - referralCreatedMs(r) >= responseWindowMs(r.urgency)){
+      const reason = t("escalationReasonTemplate").replace("{window}", windowLabelOblique(r.urgency));
+      changed = autoEscalateReferral(r, reason) || changed;
     }
   });
   return changed;
@@ -304,6 +343,7 @@ function seedData(){
       {id:"r1", patientId:"p1", facility:"Sub-Centre — Wagholi", date:"2026-08-20", symptoms:["symBleed"], customText:"", notes:"Reported light bleeding, 7 months pregnant.", urgency:"emergency", vitals:{bp:"100/60",temp:"98.6",pulse:"110"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}, published:false},
       {id:"r2", patientId:"p1", facility:"Rural Hospital — Baramati", date:"2026-08-20", symptoms:["symBleed"], customText:"", notes:"Arrived directly — PHC does not handle obstetric emergencies. Stabilised, kept for observation.", urgency:"emergency", vitals:{bp:"110/70",temp:"98.4",pulse:"90"}, loggedBy:{name:"Dr. Naik", role:"roleDoctor"}, published:true, publishedAt:"2026-08-20T10:20:00Z"},
       {id:"r3", patientId:"p2", facility:"PHC — Koregaon", date:"2026-08-25", symptoms:["symDehydration","symHighFever"], customText:"", notes:"Severe dehydration, needs IV fluids not available on site.", urgency:"priority", vitals:{bp:"",temp:"104.1",pulse:"130"}, loggedBy:{name:"Rekha Pawar", role:"rolePhc"}, published:false},
+      {id:"r11", patientId:"p6", facility:"PHC — Koregaon", date:"2026-08-29", symptoms:["symFever"], customText:"", notes:"Low-risk fever case under local observation.", urgency:"routine", vitals:{bp:"122/78",temp:"99.1",pulse:"82"}, loggedBy:{name:"PHC Team", role:"rolePhc"}, published:false},
       {id:"r4", patientId:"p3", facility:"Sub-Centre — Wagholi", date:"2026-08-18", symptoms:["symRoutineCheck"], customText:"", notes:"Routine sugar check, stable, due again in 4 weeks.", urgency:"routine", vitals:{bp:"128/82",temp:"98.2",pulse:"76"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}, published:false},
       {id:"r5", patientId:"p4", facility:"Sub-Centre — Wagholi", date:"2026-08-27", symptoms:["symFever","symCough"], customText:"", notes:"Mild seasonal fever, advised rest and fluids.", urgency:"routine", vitals:{bp:"118/76",temp:"99.5",pulse:"84"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}, published:false},
       {id:"r6", patientId:"p5", facility:"Sub-Centre — Wagholi", date:"2026-07-05", symptoms:["symRoutineCheck"], customText:"", notes:"First antenatal checkup, 12 weeks pregnant. Iron and folic acid supplements given.", urgency:"routine", vitals:{bp:"110/70",temp:"98.4",pulse:"78"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}, published:false},
@@ -314,7 +354,7 @@ function seedData(){
     ],
     referrals: [
       {id:"f1", patientId:"p1", from:"Sub-Centre — Wagholi", to:"Rural Hospital — Baramati", urgency:"emergency", capability:"obstetric_emergency", status:"in_progress", createdAt:"2026-08-20T10:00:00"},
-      {id:"f2", patientId:"p2", from:"PHC — Koregaon", to:"Rural Hospital — Baramati", urgency:"priority", capability:"pediatric_emergency", status:"notified", createdAt:new Date(Date.now()-5000).toISOString()},
+      {id:"f2", patientId:"p2", from:"Sub-Centre — Wagholi", to:"PHC — Koregaon", urgency:"priority", capability:"pediatric_emergency", status:"notified", createdAt:new Date(Date.now()-2500).toISOString()},
       {id:"f3", patientId:"p5", from:"Sub-Centre — Wagholi", to:"PHC — Koregaon", urgency:"priority", capability:"basic_checkup", status:"completed", createdAt:"2026-08-22T10:00:00"},
       {id:"f4", patientId:"p5", from:"PHC — Koregaon", to:"Rural Hospital — Baramati", urgency:"emergency", capability:"obstetric_emergency", status:"in_progress", createdAt:"2026-08-22T10:00:00"}
     ],
@@ -330,11 +370,16 @@ DB.referrals.forEach(r=>{
   if(!r.createdAtMs) r.createdAtMs=Date.parse(r.createdAt) || Date.now();
   if(!r.pendingSince) r.pendingSince=r.createdAtMs;
   if(!r.history) r.history=[];
+  if(!r.routeHistory) r.routeHistory=[];
+  if(!r.responseWindowHours) r.responseWindowHours=3;
 });
 let currentFacility = FACILITY_NAMES[0];
 let currentView = "dashboard";
 let recordFormMode = "existing";
 let openPatientId = null;
+let rejectingId = null; // referral currently showing its inline reject-reason form
+let offlineMode = false; // demo toggle — simulates a low-connectivity ASHA/PHC device
+let pendingSyncIds = []; // {kind:"record"|"referral", id} queued while offlineMode was on
 
 /* ============================= helpers ============================= */
 function patientById(id){ return DB.patients.find(p => p.id === id); }
@@ -355,6 +400,16 @@ function riskTag(risk){
 function roleLabel(roleKey){ return t(roleKey) || roleKey; }
 function uid(prefix){ return prefix + Math.random().toString(36).slice(2,9); }
 function escapeHtml(s){ return (s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+/* Real-time confirmation toast — used so the accept/reject/reroute actions are
+   visibly instant on screen (useful when demoing the referral flow live). */
+function showToast(message, tone){
+  const el = document.createElement("div");
+  el.className = `toast-banner${tone ? " " + tone : ""}`;
+  el.textContent = message;
+  document.body.appendChild(el);
+  requestAnimationFrame(() => el.classList.add("show"));
+  setTimeout(() => { el.classList.remove("show"); setTimeout(() => el.remove(), 300); }, 4200);
+}
 
 function patientStatus(patientId){
   const refs = DB.referrals.filter(r => r.patientId === patientId).slice().sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
@@ -410,6 +465,9 @@ function renderApp(){
           <span>·</span>
           <button data-lang="mr" class="${lang==='mr'?'active':''}">मराठी</button>
         </div>
+        <button id="connection-toggle" class="conn-pill ${offlineMode?'is-offline':''}">
+          <span class="dot"></span>${offlineMode ? t("goOnline") : t("goOffline")}${pendingSyncIds.length ? ` (${pendingSyncIds.length})` : ""}
+        </button>
       </aside>
       <main id="main"></main>
     </div>
@@ -475,7 +533,7 @@ function wireShell(){
     `<button data-view="${key}" class="${currentView===key?"active":""}">${ICONS[key]}${t(label)}</button>`
   ).join("");
   document.querySelectorAll("#nav button").forEach(b=>{
-    b.onclick = () => { currentView = b.dataset.view; renderMain(); };
+    b.onclick = () => { currentView = b.dataset.view; rejectingId = null; renderMain(); };
   });
 
   document.querySelectorAll("#lang-toggle button").forEach(b=>{
@@ -483,15 +541,42 @@ function wireShell(){
   });
 
   document.getElementById("logout-btn").onclick = () => { session = null; openPatientId = null; renderApp(); };
+
+  const connBtn = document.getElementById("connection-toggle");
+  if (connBtn){
+    connBtn.onclick = () => {
+      if (offlineMode){
+        // Coming back online — "sync" everything that queued up locally.
+        offlineMode = false;
+        const count = pendingSyncIds.length;
+        pendingSyncIds = [];
+        if (count) showToast(t("syncedToast"), "success");
+      } else {
+        offlineMode = true;
+        showToast(t("offlineBannerTitle"), "warn");
+      }
+      renderApp();
+    };
+  }
+}
+
+function offlineBannerHtml(){
+  if (!offlineMode && !pendingSyncIds.length) return "";
+  if (offlineMode){
+    return `<div class="notice-banner offline-banner"><strong>📴 ${t("offlineBannerTitle")}</strong><br>${t("offlineBannerBody")}${pendingSyncIds.length ? ` <strong>(${pendingSyncIds.length} ${t("offlineQueueCount")})</strong>` : ""}</div>`;
+  }
+  return "";
 }
 
 /* ============================= views ============================= */
 function renderMain(){
   const main = document.getElementById("main");
-  if (currentView === "dashboard") main.innerHTML = viewDashboard();
-  else if (currentView === "newcase") main.innerHTML = viewNewCase();
-  else if (currentView === "records") main.innerHTML = viewRecords();
-  else if (currentView === "referrals") main.innerHTML = viewReferrals();
+  let view = "";
+  if (currentView === "dashboard") view = viewDashboard();
+  else if (currentView === "newcase") view = viewNewCase();
+  else if (currentView === "records") view = viewRecords();
+  else if (currentView === "referrals") view = viewReferrals();
+  main.innerHTML = offlineBannerHtml() + view;
   wireView();
   main.classList.remove("enter");
   void main.offsetWidth;
@@ -563,6 +648,18 @@ function viewDashboard(){
     </div>
     <div class="panel"><div class="panel-head-row"><div><h2>${t("casesHere")}</h2><p class="panel-sub">${currentFacility}</p></div><button class="btn ghost" id="reset-demo">${t("resetDemo")}</button></div>
       <div class="table-scroll"><table><thead><tr><th>${t("patientId")}</th><th>${t("name")}</th><th>${t("gender")}</th><th>${t("currentStatus")}</th><th>${t("riskFlag")}</th><th></th><th>${t("onDate")}</th></tr></thead><tbody>${table}</tbody></table></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head-row"><div><h2>${t("incoming")}</h2><p class="panel-sub">Referral response queue</p></div></div>
+      ${DB.referrals.filter(r => r.to === currentFacility && r.status === "notified").length
+        ? DB.referrals.filter(r => r.to === currentFacility && r.status === "notified").map(r => {
+            const p = patientById(r.patientId);
+            if (!p) return "";
+            const left=Math.max(0,responseWindowMs(r.urgency)-(Date.now()-referralCreatedMs(r)));
+            const mins=Math.floor(left/60000), secs=Math.floor((left%60000)/1000);
+            return `<div class="dashboard-referral-row"><div><strong>${escapeHtml(p.name)}</strong> <span class="tag pid">${p.patientId}</span><div class="meta">${escapeHtml(r.from)} → ${escapeHtml(r.to)} · ${urgencyTag(r.urgency)}</div></div><div class="dashboard-referral-right"><span class="response-mini">${mins}m ${secs.toString().padStart(2,"0")}s</span><button class="btn small" data-dashboard-ref="${r.id}">${t("navReferrals")}</button></div></div>`;
+          }).join("")
+        : `<p class="empty">${t("noIncoming")}</p>`}
     </div>
     ${capabilityLegendPanel()}
   `;
@@ -718,6 +815,7 @@ function renderPatientProfile(patientId){
         <div class="t-head">${t("referredTo")}: ${r.to} <span class="tag ${r.status}">${t(r.status)}</span></div>
         <div class="t-when">${fmtDate(r.createdAt)} · ${t("from")} ${r.from}</div>
         ${r.capability ? `<div class="t-body">${t("routedBecause")}: ${capLabel(r.capability)}</div>` : ""}
+        ${r.routeHistory && r.routeHistory.length ? `<div class="t-body">${r.routeHistory.map(h=>`${escapeHtml(h.from)} → ${escapeHtml(h.to)}`).join(" · ")}</div>` : ""}
       </div>`;
     }
   }).join("") : `<p class="empty">${t("noHistory")}</p>`;
@@ -734,7 +832,7 @@ function renderPatientProfile(patientId){
       <div class="journey-strip">${events.map(ev=>{
         if(ev.type==="record"){ const r=ev.data; return `<div class="journey-step"><div class="j-label">Visit / report</div><div class="j-main">${escapeHtml(r.facility)}</div><div class="j-meta">${fmtDate(r.date)} · ${r.published?"🔒 Published":"Draft"}</div></div>`; }
         const r=ev.data; const statusLabel = {notified:t("pending"), in_progress:t("inProgress"), completed:t("completed"), rejected:t("rejected")}[r.status] || r.status;
-        return `<div class="journey-step"><div class="j-label">Referral</div><div class="j-main">${escapeHtml(r.to)}</div><div class="j-meta">${r.status==="notified" && !r.lastEscalatedAt?"🤖 "+t("aiMonitoring"):(r.escalationCount?`⚡ ${t("escalated")} #${r.escalationCount}`:statusLabel)}</div></div>`;
+        return `<div class="journey-step"><div class="j-label">Referral</div><div class="j-main">${escapeHtml(r.to)}</div><div class="j-meta">${r.status==="notified" && !r.lastEscalatedAt?"⏱ "+t("aiMonitoring"):(r.escalationCount?`⚡ ${t("escalated")} #${r.escalationCount}`:statusLabel)}</div></div>`;
       }).join("")}</div>
       <h3>${t("medicalHistory")}</h3>
       <div class="timeline">${items}</div>
@@ -751,7 +849,7 @@ function viewReferrals(){
 
   function timeLeft(r){
     if (r.status !== "notified") return "";
-    const left = Math.max(0, responseWindowMs() - (Date.now() - referralCreatedMs(r)));
+    const left = Math.max(0, responseWindowMs(r.urgency) - (Date.now() - referralCreatedMs(r)));
     const mins = Math.floor(left / 60000), secs = Math.floor((left % 60000)/1000);
     return `${mins}m ${secs.toString().padStart(2,"0")}s`;
   }
@@ -765,28 +863,42 @@ function viewReferrals(){
   function refCard(r){
     const p = patientById(r.patientId);
     if (!p) return "";
+    const pending = r.status === "notified" && r.to === currentFacility;
     let action = "";
-    if (r.status === "notified" && r.to === currentFacility){
-      action = `<button class="btn small danger" data-reject="${r.id}">${t("unableBtn")}</button>`;
+    if (pending && rejectingId === r.id){
+      action = `<div class="reject-form">
+        <textarea class="reject-reason-input" data-reject-input="${r.id}" placeholder="${t("unablePrompt")}" rows="2"></textarea>
+        <div class="reject-form-actions">
+          <button class="btn small danger" data-reject-confirm="${r.id}">${t("confirmReject")}</button>
+          <button class="btn small ghost" data-reject-cancel="${r.id}">${t("cancel")}</button>
+        </div>
+      </div>`;
+    } else if (pending){
+      action = `<button class="btn small" data-accept="${r.id}">${t("acceptBtn")}</button> <button class="btn small danger" data-reject="${r.id}">${t("unableBtn")}</button>`;
     } else if (r.status === "in_progress" && r.to === currentFacility){
       action = `<button class="btn small secondary" data-complete="${r.id}">${t("complete")}</button>`;
     }
-    const timer = r.status === "notified" && r.to === currentFacility ? `<div class="response-timer"><span>${t("timeRemaining")}</span><strong data-timer-id="${r.id}">${timeLeft(r)}</strong></div>` : "";
+    const timer = pending ? `<div class="response-timer"><span>${t("timeRemaining")} <em>(${t("responseWindowTemplate").replace("{window}", windowLabel(r.urgency))})</em></span><strong data-timer-id="${r.id}">${timeLeft(r)}</strong></div>` : "";
+    const urgentFlag = pending && r.urgency === "emergency" ? `<div class="urgent-flag">⚠ ${t("respondNow")}</div>` : "";
     const rejection = r.rejectionReason ? `<div class="ref-reason"><strong>${t("rejectedReason")}:</strong> ${escapeHtml(r.rejectionReason)}</div>` : "";
-    const escalation = r.lastEscalatedAt ? `<div class="ai-escalated">${t("escalated")} #${r.escalationCount || 1}: ${escapeHtml(r.escalationReason || "")}</div>` : "";
+    const escalation = r.lastEscalatedAt ? `<div class="reroute-note">↻ <strong>${t("referredTo")}:</strong> ${escapeHtml(r.to)}</div>` : "";
     const registry = facilityByName(r.to);
     const specialists = registry && registry.specialists.length ? `<div class="meta">${registry.specialists.map(x=>escapeHtml(x.replaceAll("_"," "))).join(", ")}</div>` : "";
-    return `<div class="ref-card ${r.urgency}">
+    return `<div class="ref-card ${r.urgency}${pending && r.urgency === "emergency" ? " urgent-pulse" : ""}">
+      ${urgentFlag}
       <div class="name">${escapeHtml(p.name)} <span class="tag pid">${p.patientId}</span></div>
       <div class="meta">${r.from} → ${r.to}</div>
+      ${r.lastEscalatedAt ? `<div class="reroute-note"><strong>${t("referredTo")}:</strong> ${escapeHtml(r.to)}</div>` : ""}
       <div class="meta">${urgencyTag(r.urgency)} ${r.capability ? `<span class="tag capability">${capLabel(r.capability)}</span>` : ""} ${r.specialist ? `<span class="tag capability">${escapeHtml(r.specialist)}</span>` : ""} <span class="tag">${refStatus(r)}</span></div>
-      ${specialists}${timer}${rejection}${escalation}
+      ${specialists}${timer}${rejection}${r.lastEscalatedAt ? "" : escalation}
       <div class="actions">${action}</div>
     </div>`;
   }
 
   function column(list, title){
-    const items = list.filter(r => ["notified","in_progress","completed","rejected"].includes(r.status));
+    const items = list.filter(r => ["notified","in_progress","completed","rejected"].includes(r.status))
+      .slice()
+      .sort((a,b) => (URGENCY_RANK[b.urgency]-URGENCY_RANK[a.urgency]) || (referralCreatedMs(a)-referralCreatedMs(b)));
     return `<div class="ref-list"><h3>${title} <span class="count">${items.length}</span></h3>${items.length ? items.map(refCard).join("") : `<p class="empty">${t("noneHere")}</p>`}</div>`;
   }
 
@@ -806,6 +918,9 @@ function viewReferrals(){
 function wireView(){
   const reset = document.getElementById("reset-demo");
   if (reset) reset.onclick = () => { DB = seedData(); patientSeq = 1006; openPatientId = null; renderMain(); };
+  document.querySelectorAll("[data-dashboard-ref]").forEach(btn => {
+    btn.onclick = () => { currentView = "referrals"; rejectingId = null; renderMain(); };
+  });
 
   document.querySelectorAll('input[name="mode"]').forEach(r => r.onchange = () => { recordFormMode = r.value; renderMain(); });
 
@@ -843,32 +958,42 @@ function wireView(){
         pulse: document.getElementById("vital-pulse").value.trim()
       };
       const { urgency, capability, specialist } = assessCase(symptoms, customText);
+      const newRecordId = uid("r");
       DB.records.push({
-        id:uid("r"), patientId, facility:currentFacility, date:new Date().toISOString().slice(0,10),
+        id:newRecordId, patientId, facility:currentFacility, date:new Date().toISOString().slice(0,10),
         symptoms, customText, notes, urgency, vitals,
         loggedBy:{ name: session.name, role: session.role }, published:false
       });
+      if (offlineMode) pendingSyncIds.push({kind:"record", id:newRecordId});
 
       DB.referrals.filter(r => r.patientId === patientId && r.to === currentFacility && r.status === "notified").forEach(r => {
         r.status = "in_progress";
         r.respondedAt = new Date().toISOString();
-        appendAudit(r, "FACILITY_STARTED_CARE", session.name, "Clinical record created at destination facility");
+        appendAudit(r, "facility-started-care", session.name, "Clinical record created at destination facility");
       });
 
+      // Offline-first: the case-file, triage result, and routing decision are all
+      // computed locally (no server round-trip needed), so the ASHA/PHC worker's
+      // device stays fully usable with no connectivity. Only the central sync is
+      // deferred — queued here and flushed automatically once "connection-toggle"
+      // goes back online.
       let resultBlock = "";
+      const offlineNote = offlineMode ? `<div class="reroute-note">📴 ${t("queuedTag")}</div>` : "";
       if (urgency !== "routine"){
         const route = routeReferral(currentFacility, capability, specialist);
         if (route.to){
-          DB.referrals.push({id:uid("f"), patientId, from:currentFacility, to:route.to, urgency, capability, status:"notified", createdAt:new Date().toISOString(), responseWindowHours:RESPONSE_WINDOW_HOURS, specialist, createdAtMs:Date.now(), pendingSince:Date.now(), escalationLevel:0, history:[]});
+          const newReferralId = uid("f");
+          DB.referrals.push({id:newReferralId, patientId, from:currentFacility, to:route.to, urgency, capability, status:"notified", createdAt:new Date().toISOString(), responseWindowHours:3, specialist, createdAtMs:Date.now(), pendingSince:Date.now(), escalationLevel:0, history:[], routeHistory:[]});
+          if (offlineMode) pendingSyncIds.push({kind:"referral", id:newReferralId});
           const skippedLine = route.skipped.length ? `<div style="margin-top:6px;font-size:12.5px;color:#8A4A0F;">${t("skippedNote")} ${route.skipped.join(", ")}</div>` : "";
-          resultBlock = `<div class="flash">${t("resultUrgency")}: ${urgencyTag(urgency)} — ${t("refer")} <strong>${route.to}</strong> (${t("routedBecause")}: ${capLabel(capability)}). ${t("referBtn")} ✓${skippedLine}</div>`;
+          resultBlock = `<div class="flash">${t("resultUrgency")}: ${urgencyTag(urgency)} — ${t("refer")} <strong>${route.to}</strong> (${t("routedBecause")}: ${capLabel(capability)}). ${t("referBtn")} ✓${skippedLine}${offlineNote}</div>`;
         } else {
-          resultBlock = `<div class="flash">${t("resultUrgency")}: ${urgencyTag(urgency)}.</div>`;
+          resultBlock = `<div class="flash">${t("resultUrgency")}: ${urgencyTag(urgency)}.${offlineNote}</div>`;
         }
       } else {
-        resultBlock = `<div class="flash">${t("resultUrgency")}: ${urgencyTag(urgency)} — ${t("noReferralNeeded")}</div>`;
+        resultBlock = `<div class="flash">${t("resultUrgency")}: ${urgencyTag(urgency)} — ${t("noReferralNeeded")}${offlineNote}</div>`;
       }
-      document.getElementById("main").innerHTML = viewNewCase(resultBlock);
+      document.getElementById("main").innerHTML = offlineBannerHtml() + viewNewCase(resultBlock);
       wireView();
     };
   }
@@ -915,19 +1040,50 @@ function wireView(){
 
   document.querySelectorAll("[data-publish]").forEach(btn=>{ btn.onclick=()=>{ const r=DB.records.find(x=>x.id===btn.dataset.publish); if(!r||!canPublishRecord(r)) return; r.published=true; r.publishedAt=new Date().toISOString(); auditEvent("publish", `Clinical report published for ${patientById(r.patientId).name}`, {patientId:r.patientId,recordId:r.id}); renderMain(); }; });
   document.querySelectorAll("[data-amend]").forEach(btn=>{ btn.onclick=()=>{ const r=DB.records.find(x=>x.id===btn.dataset.amend); if(!r||!canAmendRecord(r)) return; const text=prompt("Enter amendment / addendum:"); if(!text) return; DB.records.push({id:uid("r"),patientId:r.patientId,facility:currentFacility,date:new Date().toISOString().slice(0,10),symptoms:[],customText:"",notes:text,urgency:r.urgency,vitals:r.vitals,loggedBy:{name:session.name,role:session.role},published:true,publishedAt:new Date().toISOString(),amendsRecordId:r.id,recordType:"amendment"}); auditEvent("amendment", `Amendment added to clinical report ${r.id}`, {patientId:r.patientId,recordId:r.id,amendsRecordId:r.id}); renderMain(); }; });
+  document.querySelectorAll("[data-accept]").forEach(btn => {
+    btn.onclick = () => {
+      const r = DB.referrals.find(x => x.id === btn.dataset.accept);
+      if (!r || r.status !== "notified" || r.to !== currentFacility) return;
+      r.status = "in_progress";
+      r.respondedAt = new Date().toISOString();
+      appendAudit(r, "FACILITY_ACCEPTED", session.name, `Facility accepted the referral; care started at ${r.to}`);
+      auditEvent("referral-accepted", `Referral ${r.id} accepted at ${r.to}`, {referralId:r.id,patientId:r.patientId});
+      renderMain();
+      showToast(`✓ ${t("acceptedToast").replace("{facility}", r.to)}`, "success");
+    };
+  });
+  // Reject opens an inline reason box on the same card (no browser prompt() —
+  // keeps the whole accept/reject/re-route sequence visible on screen).
   document.querySelectorAll("[data-reject]").forEach(btn => {
     btn.onclick = () => {
-      const r = DB.referrals.find(x => x.id === btn.dataset.reject);
-      if (!r || r.status !== "notified" || r.to !== currentFacility) return;
-      const reason = prompt(t("rejectConfirm"));
-      if (!reason || !reason.trim()) return;
+      rejectingId = btn.dataset.reject;
+      renderMain();
+      const ta = document.querySelector(`[data-reject-input="${rejectingId}"]`);
+      if (ta) ta.focus();
+    };
+  });
+  document.querySelectorAll("[data-reject-cancel]").forEach(btn => {
+    btn.onclick = () => { rejectingId = null; renderMain(); };
+  });
+  document.querySelectorAll("[data-reject-confirm]").forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.dataset.rejectConfirm;
+      const r = DB.referrals.find(x => x.id === id);
+      const ta = document.querySelector(`[data-reject-input="${id}"]`);
+      const reason = ta ? ta.value.trim() : "";
+      if (!r || r.status !== "notified" || r.to !== currentFacility) { rejectingId = null; renderMain(); return; }
+      if (!reason){ ta.classList.add("input-error"); ta.focus(); return; }
+      const fromFacility = r.to;
       r.status = "rejected";
-      r.rejectionReason = reason.trim();
+      r.rejectionReason = reason;
       r.rejectedAt = new Date().toISOString();
       appendAudit(r, "FACILITY_REJECTED", session.name, r.rejectionReason);
       auditEvent("referral-rejected", `Referral ${r.id} rejected at ${r.to}`, {referralId:r.id,patientId:r.patientId,reason:r.rejectionReason});
-      autoEscalateReferral(r, r.rejectionReason);
+      const escalated = autoEscalateReferral(r, r.rejectionReason);
+      rejectingId = null;
       renderMain();
+      if (escalated) showToast(`↻ ${t("rerouteToast").replace("{from}", fromFacility).replace("{to}", r.to)}`, "success");
+      else showToast(t("noNextFacility"), "warn");
     };
   });
   document.querySelectorAll("[data-complete]").forEach(btn => {
@@ -938,12 +1094,16 @@ function wireView(){
 /* ============================= automatic escalation loop ============================= */
 setInterval(() => {
   if (!session) return;
-  if (processAutomaticEscalations()) renderMain();
+  const changed = processAutomaticEscalations();
+  // Never rebuild the New Case form from the background timer. A referral
+  // elsewhere in the demo chain can time out while the user is typing here;
+  // rebuilding the view would wipe unsaved inputs. Timers update in place.
+  if (changed && currentView !== "newcase") renderMain();
   else {
     document.querySelectorAll("[data-timer-id]").forEach(el => {
       const r = DB.referrals.find(x => x.id === el.dataset.timerId);
       if (r && r.status === "notified" && r.to === currentFacility) {
-        const left=Math.max(0,responseWindowMs()-(Date.now()-referralCreatedMs(r)));
+        const left=Math.max(0,responseWindowMs(r.urgency)-(Date.now()-referralCreatedMs(r)));
         const mins=Math.floor(left/60000), secs=Math.floor((left%60000)/1000);
         el.textContent=`${mins}m ${secs.toString().padStart(2,"0")}s`;
       }
