@@ -28,6 +28,9 @@ const STR = {
     noReferralNeeded:"No referral needed — case can stay at this facility.",
     routedBecause:"Routed here because it has", skippedNote:"Skipped (doesn't have this capability):",
     recordsTitle:"Patient records", recordsSub:"Search for a patient to see their ID, status, and full history across facilities.",
+    historyTitle:"Treated patient history", historySub:"All patients treated at this facility within the selected timeline.",
+    historyTimeline:"Timeline", last30:"Last 30 days", last6m:"Last 6 months", last1y:"Last 1 year", allTime:"All available records",
+    historySearch:"Search history", historySearchPh:"Search by name, village, patient ID, or condition…", filterRisk:"Risk category", filterUrgency:"Urgency", allRisks:"All risk categories", allUrgencies:"All urgencies", allStatuses:"All statuses", filterStatus:"Status", clearFilters:"Clear filters", noHistoryMatches:"No treated patients match these filters.", patientsFound:"patients found", visits:"visits", lastVisit:"Last visit", conditions:"Condition / reason", historyHere:"History at this facility", historyReferred:"Referred cases",
     searchPh:"Search by name, village, or patient ID…", noResults:"No matching patients.",
     patientId:"Patient ID", currentStatus:"Current status", reportsCol:"Reports",
     statusUnderTreatment:"Currently under treatment at", statusAwaiting:"Referred, awaiting arrival at",
@@ -63,10 +66,11 @@ const STR = {
     acceptedToast:"Accepted — case now in progress at {facility}",
     rerouteToast:"Rejected at {from} — instantly re-routed to {to}",
     noNextFacility:"No other registered facility currently has this capability.",
+    contactFacility:"Contact referred facility", contactFacilityHelp:"If you think this case cannot safely wait 3 hours, call the receiving facility and explain the situation.", callNow:"Call facility", facilityPhone:"Facility phone", demoContact:"Demo contact number",
     respondNow:"Emergency — respond immediately",
     published:"Published", draft:"Draft", locked:"Locked clinical report", publish:"Publish report",
     amend:"Add amendment", amendment:"Amendment", noEdit:"This clinical report is locked. Lower-level roles cannot modify a published report.",
-    aiDemo:"Demo timer: 15 seconds", audit:"Audit trail",
+    aiDemo:"Demo timer: 30 seconds", audit:"Audit trail",
     acceptedAt:"Accepted at", escalatedAt:"Escalated at", aiDecision:"AI decision", pendingFor:"Pending for",
     goOffline:"Simulate offline", goOnline:"Back online",
     offlineBannerTitle:"Offline mode — device has no connectivity",
@@ -102,6 +106,9 @@ const STR = {
     noReferralNeeded:"रेफरलची गरज नाही — प्रकरण याच सुविधेत राहू शकते.",
     routedBecause:"येथे पाठवले कारण येथे उपलब्ध आहे", skippedNote:"वगळले (ही सुविधा येथे नाही):",
     recordsTitle:"रुग्ण नोंदी", recordsSub:"रुग्णाचा आयडी, स्थिती व संपूर्ण इतिहास पाहण्यासाठी शोधा.",
+    historyTitle:"उपचार घेतलेल्या रुग्णांचा इतिहास", historySub:"निवडलेल्या कालावधीत या सुविधेत उपचार घेतलेल्या सर्व रुग्णांची नोंद.",
+    historyTimeline:"कालावधी", last30:"मागील ३० दिवस", last6m:"मागील ६ महिने", last1y:"मागील १ वर्ष", allTime:"उपलब्ध सर्व नोंदी",
+    historySearch:"इतिहास शोधा", historySearchPh:"नाव, गाव, रुग्ण आयडी किंवा आजाराने शोधा…", filterRisk:"जोखीम गट", filterUrgency:"तीव्रता", allRisks:"सर्व जोखीम गट", allUrgencies:"सर्व तीव्रता", allStatuses:"सर्व स्थिती", filterStatus:"स्थिती", clearFilters:"फिल्टर साफ करा", noHistoryMatches:"या फिल्टरशी जुळणारे उपचार घेतलेले रुग्ण नाहीत.", patientsFound:"रुग्ण सापडले", visits:"भेटी", lastVisit:"शेवटची भेट", conditions:"आजार / कारण", historyHere:"या सुविधेतील इतिहास", historyReferred:"रेफरल प्रकरणे",
     searchPh:"नाव, गाव किंवा रुग्ण आयडीने शोधा…", noResults:"जुळणारे रुग्ण नाहीत.",
     patientId:"रुग्ण आयडी", currentStatus:"सध्याची स्थिती", reportsCol:"अहवाल",
     statusUnderTreatment:"सध्या उपचार सुरू आहेत येथे", statusAwaiting:"पाठवले, पोहोचण्याची प्रतीक्षा येथे",
@@ -140,7 +147,7 @@ const STR = {
     respondNow:"आपत्कालीन — त्वरित प्रतिसाद द्या",
     published:"प्रकाशित", draft:"मसुदा", locked:"लॉक केलेला वैद्यकीय अहवाल", publish:"अहवाल प्रकाशित करा",
     amend:"दुरुस्ती जोडा", amendment:"दुरुस्ती", noEdit:"हा वैद्यकीय अहवाल लॉक आहे. खालच्या स्तरातील भूमिका प्रकाशित अहवाल बदलू शकत नाहीत.",
-    aiDemo:"डेमो टाइमर: 15 सेकंद", audit:"ऑडिट ट्रेल",
+    aiDemo:"डेमो टाइमर: 30 सेकंद", audit:"ऑडिट ट्रेल",
     acceptedAt:"स्वीकारले", escalatedAt:"एस्कलेशन", aiDecision:"AI निर्णय", pendingFor:"प्रलंबित कालावधी",
     goOffline:"ऑफलाइन सिम्युलेट करा", goOnline:"पुन्हा ऑनलाइन",
     offlineBannerTitle:"ऑफलाइन मोड — डिव्हाइसला इंटरनेट कनेक्टिव्हिटी नाही",
@@ -175,13 +182,19 @@ const GOV_EMBLEM_SVG = `<svg class="gov-emblem" viewBox="0 0 48 48" fill="none" 
 
 /* ============================= facility capability model ============================= */
 const FACILITIES = [
-  { name:"Sub-Centre — Wagholi", level:"Sub-Centre", specialists:[], services:["basic_checkup"], diagnostics:["basic_vitals"], medicines:["ors","iron_folic"], equipment:["bp_monitor","thermometer"] },
-  { name:"PHC — Koregaon", level:"PHC", specialists:["general_medicine"], services:["basic_checkup","normal_delivery"], diagnostics:["cbc","blood_sugar"], medicines:["ors","iron_folic","basic_antibiotics"], equipment:["bp_monitor","delivery_kit"] },
-  { name:"Rural Hospital — Baramati", level:"Rural Hospital", specialists:["obstetrics","pediatrics","trauma"], services:["basic_checkup","normal_delivery","obstetric_emergency","pediatric_emergency","trauma_surgery","infectious_disease_care"], diagnostics:["cbc","blood_sugar","ultrasound","xray"], medicines:["ors","iron_folic","emergency_medicines"], equipment:["bp_monitor","ultrasound","xray","ot"] },
-  { name:"District Hospital — Pune", level:"District Hospital", specialists:["obstetrics","pediatrics","trauma","cardiology","ophthalmology","general_medicine"], services:["basic_checkup","normal_delivery","obstetric_emergency","pediatric_emergency","trauma_surgery","infectious_disease_care","specialist_consultation"], diagnostics:["cbc","blood_sugar","ultrasound","xray","ct","ecg"], medicines:["ors","iron_folic","emergency_medicines","specialist_medicines"], equipment:["bp_monitor","ultrasound","xray","ct","ecg","ot"] }
+  { name:"Sub-Centre — Wagholi", level:"Sub-Centre", phone:"020-0000-1001", specialists:[], services:["basic_checkup"], diagnostics:["basic_vitals"], medicines:["ors","iron_folic"], equipment:["bp_monitor","thermometer"] },
+  { name:"PHC — Koregaon", level:"PHC", phone:"020-0000-1002", specialists:["general_medicine"], services:["basic_checkup","normal_delivery"], diagnostics:["cbc","blood_sugar"], medicines:["ors","iron_folic","basic_antibiotics"], equipment:["bp_monitor","delivery_kit"] },
+  { name:"Rural Hospital — Baramati", level:"Rural Hospital", phone:"02112-000003", specialists:["obstetrics","pediatrics","trauma"], services:["basic_checkup","normal_delivery","obstetric_emergency","pediatric_emergency","trauma_surgery","infectious_disease_care"], diagnostics:["cbc","blood_sugar","ultrasound","xray"], medicines:["ors","iron_folic","emergency_medicines"], equipment:["bp_monitor","ultrasound","xray","ot"] },
+  { name:"District Hospital — Pune", level:"District Hospital", phone:"020-0000-1004", specialists:["obstetrics","pediatrics","trauma","cardiology","ophthalmology","general_medicine"], services:["basic_checkup","normal_delivery","obstetric_emergency","pediatric_emergency","trauma_surgery","infectious_disease_care","specialist_consultation"], diagnostics:["cbc","blood_sugar","ultrasound","xray","ct","ecg"], medicines:["ors","iron_folic","emergency_medicines","specialist_medicines"], equipment:["bp_monitor","ultrasound","xray","ct","ecg","ot"] }
 ];
 const FACILITY_NAMES = FACILITIES.map(f => f.name);
 function facilityByName(name){ return FACILITIES.find(f => f.name === name); }
+function facilityContactHtml(name){
+  const f = facilityByName(name);
+  if (!f || !f.phone) return "";
+  const digits = f.phone.replace(/[^0-9+]/g, "");
+  return `<div class="facility-contact"><div><strong>📞 ${t("facilityPhone")}</strong>: ${escapeHtml(f.phone)} <span class="tag">${t("demoContact")}</span></div><a class="btn small secondary" href="tel:${digits}">${t("callNow")}</a></div>`;
+}
 const CAP_LABEL_KEY = {
   basic_checkup:"capBasic", normal_delivery:"capDelivery", obstetric_emergency:"capObstetric",
   pediatric_emergency:"capPediatric", trauma_surgery:"capTrauma",
@@ -207,9 +220,9 @@ function routeReferral(fromFacilityName, capability, specialist){
 
 /* ============================= automatic facility response / escalation ============================= */
 /* Every referral gets the same 3-hour facility response window.
-   For the live prototype demo, the 3 hours are compressed to 15 seconds. */
+   For the live prototype demo, the 3 hours are compressed to 30 seconds. */
 const RESPONSE_WINDOW_HOURS = { emergency: 3, priority: 3, routine: 3 };
-const DEMO_ESCALATION_MS = { emergency: 15000, priority: 15000, routine: 15000 };
+const DEMO_ESCALATION_MS = { emergency: 30000, priority: 30000, routine: 30000 };
 function responseWindowHoursFor(urgency){ return RESPONSE_WINDOW_HOURS[urgency] || RESPONSE_WINDOW_HOURS.priority; }
 function referralCreatedMs(r){
   const value = Date.parse(r.createdAt);
@@ -314,7 +327,7 @@ function auditEvent(type, message, extra={}){
 }
 
 /* ============================= patient ID generator ============================= */
-let patientSeq = 1006; // seed patients occupy 1001-1005
+let patientSeq = 1007; // seed patients occupy 1001-1006
 function nextPatientId(){
   const id = "MH26-" + String(patientSeq).padStart(4,"0");
   patientSeq++;
@@ -337,7 +350,8 @@ function seedData(){
          uploadedBy:{name:"Dr. Ashwini Naik", role:"roleDoctor"}, facility:"Rural Hospital — Baramati", date:"2026-08-23"},
         {id:"a3", name:"BP & Lab Chart - Admission.pdf", type:"application/pdf", dataUrl:null,
          uploadedBy:{name:"Dr. Ashwini Naik", role:"roleDoctor"}, facility:"Rural Hospital — Baramati", date:"2026-08-23"}
-      ]}
+      ]},
+      {id:"p6", patientId:"MH26-1006", name:"Rohit Deshmukh", age:42, gender:"male", village:"Koregaon", risk:"none", attachments:[]}
     ],
     records: [
       {id:"r1", patientId:"p1", facility:"Sub-Centre — Wagholi", date:"2026-08-20", symptoms:["symBleed"], customText:"", notes:"Reported light bleeding, 7 months pregnant.", urgency:"emergency", vitals:{bp:"100/60",temp:"98.6",pulse:"110"}, loggedBy:{name:"Sunita Kamble", role:"roleAsha"}, published:false},
@@ -378,6 +392,7 @@ let currentView = "dashboard";
 let recordFormMode = "existing";
 let openPatientId = null;
 let rejectingId = null; // referral currently showing its inline reject-reason form
+let historyFilters = {range:"1y", risk:"all", urgency:"all", status:"all"};
 let offlineMode = false; // demo toggle — simulates a low-connectivity ASHA/PHC device
 let pendingSyncIds = []; // {kind:"record"|"referral", id} queued while offlineMode was on
 
@@ -727,30 +742,112 @@ function viewNewCase(resultBlock){
   `;
 }
 
-function viewRecords(query){
+function viewRecords(query, historyFilters){
   query = query || "";
+  historyFilters = historyFilters || {range:"1y", risk:"all", urgency:"all", status:"all"};
   const q = query.trim().toLowerCase();
-  const matches = DB.patients.filter(p =>
-    p.name.toLowerCase().includes(q) || p.village.toLowerCase().includes(q) || p.patientId.toLowerCase().includes(q)
-  );
-  const rows = matches.length ? matches.map(p => {
-    const st = patientStatus(p.id);
-    const repCount = p.attachments.length;
-    const repBadge = repCount ? `<span class="tag capability">📄 ${repCount}</span>` : `<span class="empty" style="padding:0;">—</span>`;
+  const now = Date.now();
+  const rangeMs = {"30d":30*86400000, "6m":180*86400000, "1y":365*86400000, "all":Infinity}[historyFilters.range] || 365*86400000;
+  const cutoff = now - rangeMs;
+
+  const facilityRecords = DB.records.filter(r => {
+    if (r.facility !== currentFacility) return false;
+    const ts = Date.parse(r.date);
+    return historyFilters.range === "all" || (Number.isFinite(ts) && ts >= cutoff);
+  });
+
+  const grouped = new Map();
+  facilityRecords.forEach(r => {
+    const p = patientById(r.patientId);
+    if (!p) return;
+    if (!grouped.has(p.id)) grouped.set(p.id, []);
+    grouped.get(p.id).push(r);
+  });
+
+  const conditionText = (r) => {
+    const labels = (r.symptoms || []).map(x => STR[lang][x] || x);
+    if (r.customText) labels.push(r.customText);
+    return labels.length ? labels.join(", ") : (r.notes || "");
+  };
+  const statusFor = (patientId) => patientStatus(patientId).text;
+  const riskMatch = (p) => historyFilters.risk === "all" || (p.risk || "none") === historyFilters.risk;
+  const urgencyMatch = (recs) => historyFilters.urgency === "all" || recs.some(r => r.urgency === historyFilters.urgency);
+  const statusKey = (patientId) => {
+    const refs = DB.referrals.filter(r => r.patientId === patientId).slice().sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
+    const recs = DB.records.filter(r => r.patientId === patientId).slice().sort((a,b)=>b.date.localeCompare(a.date));
+    if (refs.length && refs[0].status !== "completed") {
+      if (refs[0].status === "notified") return "awaiting";
+      if (refs[0].status === "in_progress") return "under";
+    }
+    return recs.length ? "discharged" : "none";
+  };
+  const statusMatch = (p) => historyFilters.status === "all" || statusKey(p.id) === historyFilters.status;
+
+  const matches = [...grouped.entries()].map(([id,recs]) => ({p:patientById(id), recs:recs.slice().sort((a,b)=>b.date.localeCompare(a.date))}))
+    .filter(({p,recs}) => {
+      const hay = [p.name, p.village, p.patientId, ...recs.map(conditionText)].join(" ").toLowerCase();
+      return (!q || hay.includes(q)) && riskMatch(p) && urgencyMatch(recs) && statusMatch(p);
+    })
+    .sort((a,b) => b.recs[0].date.localeCompare(a.recs[0].date));
+
+  const totalVisits = matches.reduce((n,x)=>n+x.recs.length,0);
+  const highCount = matches.filter(x => x.p.risk && x.p.risk !== "none").length;
+  const referredCount = matches.filter(x => DB.referrals.some(r => r.patientId===x.p.id && (r.from===currentFacility || r.to===currentFacility))).length;
+
+  const rows = matches.length ? matches.map(({p,recs}) => {
+    const latest = recs[0];
+    const conditions = conditionText(latest);
     return `<tr class="clickable" data-patient="${p.id}">
       <td><span class="tag pid">${p.patientId}</span></td>
-      <td>${p.name}</td><td>${p.village}</td><td>${riskTag(p.risk) || "—"}</td>
-      <td>${repBadge}</td>
-      <td style="font-size:12.5px;color:var(--ink-soft);">${st.text}</td>
+      <td><strong>${escapeHtml(p.name)}</strong><div class="table-sub">${escapeHtml(p.village)}</div></td>
+      <td>${escapeHtml(conditions.slice(0,90))}${conditions.length>90?"…":""}</td>
+      <td>${riskTag(p.risk) || "—"}</td>
+      <td>${urgencyTag(latest.urgency)}</td>
+      <td>${recs.length}</td>
+      <td>${fmtDate(latest.date)}</td>
     </tr>`;
-  }).join("") : `<tr><td colspan="6" class="empty">${t("noResults")}</td></tr>`;
+  }).join("") : `<tr><td colspan="7" class="empty">${t("noHistoryMatches")}</td></tr>`;
 
   return `
     <header class="page-head"><h1>${t("recordsTitle")}</h1><p>${t("recordsSub")}</p></header>
-    <div class="search-row"><input type="text" id="patient-search" placeholder="${t("searchPh")}" value="${escapeHtml(query)}"></div>
-    <div class="panel">
-      <table><thead><tr><th>${t("patientId")}</th><th>${t("name")}</th><th>${t("village")}</th><th></th><th>${t("reportsCol")}</th><th>${t("currentStatus")}</th></tr></thead>
-      <tbody>${rows}</tbody></table>
+    <div class="panel history-panel">
+      <div class="panel-head-row"><div><h2>${t("historyTitle")}</h2><p class="panel-sub">${t("historySub")} — <strong>${escapeHtml(currentFacility)}</strong></p></div></div>
+      <div class="history-stats">
+        <div class="stat"><div class="num">${matches.length}</div><div class="label">${t("patientsFound")}</div></div>
+        <div class="stat"><div class="num">${totalVisits}</div><div class="label">${t("visits")}</div></div>
+        <div class="stat warn"><div class="num">${highCount}</div><div class="label">${t("highRisk")}</div></div>
+        <div class="stat"><div class="num">${referredCount}</div><div class="label">${t("historyReferred")}</div></div>
+      </div>
+      <div class="history-filters">
+        <div class="field"><label>${t("historySearch")}</label><input type="text" id="history-search" placeholder="${t("historySearchPh")}" value="${escapeHtml(query)}"></div>
+        <div class="field"><label>${t("historyTimeline")}</label><select id="history-range">
+          <option value="30d" ${historyFilters.range==="30d"?"selected":""}>${t("last30")}</option>
+          <option value="6m" ${historyFilters.range==="6m"?"selected":""}>${t("last6m")}</option>
+          <option value="1y" ${historyFilters.range==="1y"?"selected":""}>${t("last1y")}</option>
+          <option value="all" ${historyFilters.range==="all"?"selected":""}>${t("allTime")}</option>
+        </select></div>
+        <div class="field"><label>${t("filterRisk")}</label><select id="history-risk">
+          <option value="all" ${historyFilters.risk==="all"?"selected":""}>${t("allRisks")}</option>
+          <option value="maternal" ${historyFilters.risk==="maternal"?"selected":""}>${t("maternal")}</option>
+          <option value="child" ${historyFilters.risk==="child"?"selected":""}>${t("child")}</option>
+          <option value="chronic" ${historyFilters.risk==="chronic"?"selected":""}>${t("chronic")}</option>
+          <option value="none" ${historyFilters.risk==="none"?"selected":""}>${t("none")}</option>
+        </select></div>
+        <div class="field"><label>${t("filterUrgency")}</label><select id="history-urgency">
+          <option value="all" ${historyFilters.urgency==="all"?"selected":""}>${t("allUrgencies")}</option>
+          <option value="emergency" ${historyFilters.urgency==="emergency"?"selected":""}>${t("urgencyEmergency")}</option>
+          <option value="priority" ${historyFilters.urgency==="priority"?"selected":""}>${t("urgencyPriority")}</option>
+          <option value="routine" ${historyFilters.urgency==="routine"?"selected":""}>${t("urgencyRoutine")}</option>
+        </select></div>
+        <div class="field"><label>${t("filterStatus")}</label><select id="history-status">
+          <option value="all" ${historyFilters.status==="all"?"selected":""}>${t("allStatuses")}</option>
+          <option value="under" ${historyFilters.status==="under"?"selected":""}>${t("statusUnderTreatment")}</option>
+          <option value="awaiting" ${historyFilters.status==="awaiting"?"selected":""}>${t("statusAwaiting")}</option>
+          <option value="discharged" ${historyFilters.status==="discharged"?"selected":""}>${t("statusDischarged")}</option>
+        </select></div>
+        <button class="btn ghost filter-clear" id="history-clear">${t("clearFilters")}</button>
+      </div>
+      <div class="table-scroll"><table><thead><tr><th>${t("patientId")}</th><th>${t("name")}</th><th>${t("conditions")}</th><th>${t("riskFlag")}</th><th>${t("filterUrgency")}</th><th>${t("visits")}</th><th>${t("lastVisit")}</th></tr></thead><tbody>${rows}</tbody></table></div>
     </div>
     <div id="patient-timeline">${openPatientId ? renderPatientProfile(openPatientId) : ""}</div>
   `;
@@ -891,6 +988,7 @@ function viewReferrals(){
       ${r.lastEscalatedAt ? `<div class="reroute-note"><strong>${t("referredTo")}:</strong> ${escapeHtml(r.to)}</div>` : ""}
       <div class="meta">${urgencyTag(r.urgency)} ${r.capability ? `<span class="tag capability">${capLabel(r.capability)}</span>` : ""} ${r.specialist ? `<span class="tag capability">${escapeHtml(r.specialist)}</span>` : ""} <span class="tag">${refStatus(r)}</span></div>
       ${specialists}${timer}${rejection}${r.lastEscalatedAt ? "" : escalation}
+      ${r.from === currentFacility && r.status === "notified" ? `<div class="contact-referral"><strong>📞 ${t("contactFacility")}</strong><p>${t("contactFacilityHelp")}</p>${facilityContactHtml(r.to)}</div>` : ""}
       <div class="actions">${action}</div>
     </div>`;
   }
@@ -917,7 +1015,7 @@ function viewReferrals(){
 /* ============================= wiring per view ============================= */
 function wireView(){
   const reset = document.getElementById("reset-demo");
-  if (reset) reset.onclick = () => { DB = seedData(); patientSeq = 1006; openPatientId = null; renderMain(); };
+  if (reset) reset.onclick = () => { DB = seedData(); patientSeq = 1007; openPatientId = null; historyFilters = {range:"1y", risk:"all", urgency:"all", status:"all"}; renderMain(); };
   document.querySelectorAll("[data-dashboard-ref]").forEach(btn => {
     btn.onclick = () => { currentView = "referrals"; rejectingId = null; renderMain(); };
   });
@@ -986,7 +1084,7 @@ function wireView(){
           DB.referrals.push({id:newReferralId, patientId, from:currentFacility, to:route.to, urgency, capability, status:"notified", createdAt:new Date().toISOString(), responseWindowHours:3, specialist, createdAtMs:Date.now(), pendingSince:Date.now(), escalationLevel:0, history:[], routeHistory:[]});
           if (offlineMode) pendingSyncIds.push({kind:"referral", id:newReferralId});
           const skippedLine = route.skipped.length ? `<div style="margin-top:6px;font-size:12.5px;color:#8A4A0F;">${t("skippedNote")} ${route.skipped.join(", ")}</div>` : "";
-          resultBlock = `<div class="flash">${t("resultUrgency")}: ${urgencyTag(urgency)} — ${t("refer")} <strong>${route.to}</strong> (${t("routedBecause")}: ${capLabel(capability)}). ${t("referBtn")} ✓${skippedLine}${offlineNote}</div>`;
+          resultBlock = `<div class="flash">${t("resultUrgency")}: ${urgencyTag(urgency)} — ${t("refer")} <strong>${route.to}</strong> (${t("routedBecause")}: ${capLabel(capability)}). ${t("referBtn")} ✓${skippedLine}${offlineNote}</div><div class="panel contact-panel"><h3>📞 ${t("contactFacility")}</h3><p>${t("contactFacilityHelp")}</p>${facilityContactHtml(route.to)}</div>`;
         } else {
           resultBlock = `<div class="flash">${t("resultUrgency")}: ${urgencyTag(urgency)}.${offlineNote}</div>`;
         }
@@ -998,17 +1096,37 @@ function wireView(){
     };
   }
 
-  const search = document.getElementById("patient-search");
+  const search = document.getElementById("history-search");
   if (search){
     search.oninput = () => {
       const val = search.value;
-      document.getElementById("main").innerHTML = viewRecords(val);
+      document.getElementById("main").innerHTML = viewRecords(val, historyFilters);
       wireView();
-      const refocused = document.getElementById("patient-search");
+      const refocused = document.getElementById("history-search");
       refocused.focus();
       refocused.setSelectionRange(val.length, val.length);
     };
   }
+  ["history-range","history-risk","history-urgency","history-status"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.onchange=()=>{
+      historyFilters = {
+        range: document.getElementById("history-range").value,
+        risk: document.getElementById("history-risk").value,
+        urgency: document.getElementById("history-urgency").value,
+        status: document.getElementById("history-status").value
+      };
+      const val=document.getElementById("history-search").value;
+      document.getElementById("main").innerHTML=viewRecords(val, historyFilters);
+      wireView();
+    };
+  });
+  const clearHistory = document.getElementById("history-clear");
+  if(clearHistory) clearHistory.onclick=()=>{
+    historyFilters={range:"1y",risk:"all",urgency:"all",status:"all"};
+    document.getElementById("main").innerHTML=viewRecords("",historyFilters);
+    wireView();
+  };
   // Applies on every view that renders clickable patient rows (Records AND
   // the Facility Dashboard's case table). Only the Records view has a
   // container to display the opened profile, so clicking a row also

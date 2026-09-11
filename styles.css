@@ -377,3 +377,22 @@ fieldset legend{font-size:13px;font-weight:600;padding:0 6px;color:var(--primary
   .dashboard-referral-row{align-items:flex-start;flex-direction:column;}
   .dashboard-referral-right{width:100%;justify-content:space-between;}
 }
+
+/* Patient history search / filter window */
+.history-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 18px;}
+.history-filters{display:grid;grid-template-columns:2fr repeat(4,1fr) auto;gap:10px;align-items:end;margin-bottom:18px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface-soft);}
+.history-filters .field{margin:0;min-width:0;}
+.history-filters label{font-size:12px;}
+.history-filters input,.history-filters select{width:100%;}
+.filter-clear{height:42px;white-space:nowrap;}
+.table-sub{font-size:11.5px;color:var(--ink-soft);margin-top:2px;}
+@media(max-width:1050px){.history-filters{grid-template-columns:1fr 1fr;}.history-filters .field:first-child{grid-column:1/-1}.filter-clear{width:100%;}}
+@media(max-width:700px){.history-stats{grid-template-columns:1fr 1fr}.history-filters{grid-template-columns:1fr}.history-filters .field:first-child{grid-column:auto}.table-scroll{overflow-x:auto;}}
+
+/* Direct contact with the referred facility */
+.contact-panel{margin-top:14px;border-left:4px solid #1b6e8c;background:#f5fbfd}
+.contact-panel h3{margin:0 0 6px}
+.contact-panel p,.contact-referral p{margin:4px 0 10px;color:#52606d;font-size:13px}
+.facility-contact{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.facility-contact a{text-decoration:none}
+.contact-referral{margin-top:12px;padding:10px 12px;border:1px solid #d8e3e8;border-radius:10px;background:#f8fcfd}
