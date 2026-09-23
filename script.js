@@ -6,7 +6,7 @@ const STR = {
     footerNote:"Prototype built for Smart India Hackathon (SIH26133). Not an official government service.",
     loginTitle:"Staff Login", loginSub:"Sign in to record and manage patient cases.",
     yourName:"Your name", yourNamePh:"e.g. Sunita Kamble",
-    abhaIdLabel:"Enter your ABHA ID", abhaIdPh:"Enter ABHA ID",
+    abhaIdLabel:"ENTER FACILITY ID", abhaIdPh:"ENTER FACILITY ID",
     yourRole:"Your role", roleAsha:"ASHA Worker — Sub-Centre", rolePhc:"PHC", roleRural:"Rural Hospital", roleDistrict:"District Hospital",
     loginBtn:"Log in", loggedInAs:"Logged in as", logout:"Log out",
     viewingAs:"Viewing as",
@@ -20,6 +20,7 @@ const STR = {
     capsSub:"Government facility data guides routing using registered specialists, services, diagnostics, medicines and equipment.",
     newTitle:"Log a new case", newSub:"Record a patient visit and let the system flag whether it needs referral, and where.",
     patientSection:"Patient", existingOrNew:"Existing patient or new?", existing:"Existing patient", newP:"New patient",
+    noLocalPatients:"No patients currently at this facility",
     choosePatient:"Choose patient", name:"Name", age:"Age", gender:"Gender", village:"Village",
     male:"Male", female:"Female", other:"Other",
     riskFlag:"Follow-up risk category", none:"None", maternal:"Maternal", child:"Child (under 5)", chronic:"Chronic condition",
@@ -122,6 +123,7 @@ const STR = {
     capsSub:"शासकीय नोंदणीत असलेले तज्ज्ञ, सेवा, तपासण्या, औषधे व उपकरणांची माहिती रेफरल ठरवण्यासाठी वापरली जाते.",
     newTitle:"नवीन प्रकरण नोंदवा", newSub:"रुग्ण भेट नोंदवा — प्रणाली रेफरलची गरज आहे का आणि कुठे ते ठरवेल.",
     patientSection:"रुग्ण", existingOrNew:"जुना रुग्ण की नवीन?", existing:"जुना रुग्ण", newP:"नवीन रुग्ण",
+    noLocalPatients:"सध्या या सुविधेत कोणतेही रुग्ण नाहीत",
     choosePatient:"रुग्ण निवडा", name:"नाव", age:"वय", gender:"लिंग", village:"गाव",
     male:"पुरुष", female:"स्त्री", other:"इतर",
     riskFlag:"पाठपुरावा जोखीम गट", none:"काहीही नाही", maternal:"माता", child:"बालक (५ वर्षांखालील)", chronic:"दीर्घकालीन आजार",
@@ -323,7 +325,18 @@ function routeReferral(fromFacilityName, capability, specialist, excludeNames){
     return ok;
   });
   if (!capable.length) return { to: null, skipped, distanceKm: null };
-  capable.sort((a, b) => distanceBetweenFacilities(fromFacilityName, a.name) - distanceBetweenFacilities(fromFacilityName, b.name));
+  /* FIXED: sort by hierarchy level first (send the case to the LOWEST
+     facility that can actually handle it — minimal escalation), and only
+     use distance as a tiebreaker between facilities at the same level.
+     Sorting by raw distance alone always picked District Hospital — Pune,
+     since it happens to be geographically closest to every other facility
+     in this demo's coordinates AND has every capability, so it beat out
+     closer, lower-tier facilities for routine/priority cases too. */
+  capable.sort((a, b) => {
+    const levelDiff = facilityLevelIndex(a.name) - facilityLevelIndex(b.name);
+    if (levelDiff !== 0) return levelDiff;
+    return distanceBetweenFacilities(fromFacilityName, a.name) - distanceBetweenFacilities(fromFacilityName, b.name);
+  });
   const chosen = capable[0];
   return { to: chosen.name, skipped, distanceKm: Math.round(distanceBetweenFacilities(fromFacilityName, chosen.name)) };
 }
@@ -1633,6 +1646,23 @@ function wireView(){
       if (!r || r.status !== "notified" || r.to !== currentFacility) return;
       r.status = "in_progress";
       r.respondedAt = new Date().toISOString();
+      /* FIXED: accepting a referral used to only flip the referral's status.
+         It never created a clinical record, but the facility dashboard's
+         "cases currently here" table and the patient's status history both
+         read DB.records, not referral status — so an accepted patient never
+         showed up on the receiving facility's dashboard, and once the case
+         was later marked complete the patient's history reverted to
+         "No visits logged yet," as if they'd never been treated here.
+         Creating a record at accept time keeps presence + history correct
+         all the way through accept → complete. */
+      const newRecordId = uid("r");
+      DB.records.push({
+        id:newRecordId, patientId:r.patientId, facility:r.to, date:new Date().toISOString().slice(0,10),
+        symptoms:[], customText:"", notes:`Referral accepted — care started for ${capLabel(r.capability)}.`,
+        urgency:r.urgency, vitals:{}, loggedBy:{name:session.name, role:session.role},
+        published:false, recordType:"referral-accepted", referralId:r.id
+      });
+      r.recordId = newRecordId;
       appendAudit(r, "FACILITY_ACCEPTED", session.name, `Facility accepted the referral; care started at ${r.to}`);
       renderMain();
       showToast(`✓ ${t("acceptedToast").replace("{facility}", r.to)}`, "success");
